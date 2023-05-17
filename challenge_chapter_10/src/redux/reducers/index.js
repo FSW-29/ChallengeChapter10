@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { usersLogin } from "./usersLogin_reducers";
+import  usersLogin from "./profile/usersLogin_reducers";
 import authReducer from "./auth/auth.reducer";
 
 
