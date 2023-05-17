@@ -1,13 +1,7 @@
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.css';
-import { useEffect } from 'react';
 // import 'bootstrap/dist/js/bootstrap';
 
 export default function Home() {
-  useEffect(() => {
-    require('bootstrap/dist/js/bootstrap');
-  }, []);
-
   return (
     <>
       <Head>
