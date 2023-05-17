@@ -9,7 +9,7 @@ const initialState={
     userTotalScore:null
 }
 
-export function users(state=initialState, action){
+export function usersLogin(state=initialState, action){
     switch(action.type){
         case 'LOGIN_AUTHENTICATED':
             return{...state, 
