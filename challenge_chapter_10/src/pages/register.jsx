@@ -68,7 +68,7 @@ const Register = () => {
 
     alert('Register Success');
 
-    router.push('/');
+    router.push('/login');
   };
 
   return (

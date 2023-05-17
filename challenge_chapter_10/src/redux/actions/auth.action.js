@@ -20,7 +20,7 @@ export const registerUser = (data) => {
 
     // => kondisi fulfilled
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', data);
+      const response = await axios.post('/api/auth/register', data);
 
       dispatch({
         type: REGISTER_USER,
@@ -59,7 +59,7 @@ export const loginUser = (data) => {
 
     // > kondisi fulfilled
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', data);
+      const response = await axios.post('/api/auth/login', data);
 
       dispatch({
         type: LOGIN_USER,
