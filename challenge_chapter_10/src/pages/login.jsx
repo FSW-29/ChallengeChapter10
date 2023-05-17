@@ -34,9 +34,11 @@ const Register = () => {
   const dispatch = useDispatch();
   // > selecttor
   const {
-    loginUserLoading,
+    // loginUserLoading,
     loginUserFulfilled
   } = useSelector((state) =>  state.authReducer);
+  // console.info(loginUserFulfilled, 'user fulfilled');
+  // console.info(loginUserFulfilled.data, 'kondisi fulfilled');
   
   // > buat api key
   if (loginUserFulfilled.apiKey != "" && loginUserFulfilled.apiKey != null && typeof loginUserFulfilled.apiKey != 'undefined' && apiKey == ''){
