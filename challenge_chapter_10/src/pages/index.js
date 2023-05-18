@@ -1,5 +1,9 @@
+import CarouselGameListComponent from '@/components/CarouselGameListComponent';
+import LandingDefinitionComponent from '@/components/LandingDefinitionComponent';
+import NavbarLanding from '@/components/NavbarLanding';
 import Head from 'next/head';
-// import 'bootstrap/dist/js/bootstrap';
+
+//import 'bootstrap/dist/js/bootstrap';
 
 export default function Home() {
   return (
@@ -11,9 +15,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="container">
+        {/* <div className="container">
           <h1 className='text-center'>Hello Dek</h1>
-        </div>
+        </div> */}
+        <NavbarLanding />
+        <CarouselGameListComponent />
+        <LandingDefinitionComponent />
+
+        {/* <div className="bg-dark text-white text-center p-3">
+          <GameListByCategoryComponent
+            propsCategory={"Top"}
+            propsHandleGame={racing}
+            propsHandleDetail={handleDetail}
+          />
+          <button type="button" class="btn btn-outline-light" onClick={navigateToGameList}>
+            VIEW MORE
+          </button>
+        </div> */}
       </main>
     </>
   )
