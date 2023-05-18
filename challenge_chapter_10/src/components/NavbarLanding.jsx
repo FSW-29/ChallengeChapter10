@@ -1,31 +1,29 @@
 import React from "react";
-// import { useNavigate } from "react-router";
+import { useRouter } from "next/router";
 
 const NavbarLandingComponent = () => {
-//   const navigate = useNavigate();
+  const router = useRouter();
+  //   const navigate = useNavigate();
 
-//   const navigateToRegister = () => {
-//     navigate("/register");
-//   };
+  //   const navigateToRegister = () => {
+  //     navigate("/register");
+  //   };
 
-//   const navigateToLogin = () => {
-//     navigate("/login");
-//   };
+  //   const navigateToLogin = () => {
+  //     navigate("/login");
+  //   };
 
-//   const navigateToGameList = () => {
-//     navigate("/game-list");
-//   };
+  const navigateToGameList = () => {
+    router.push("/GameList");
+  };
 
-//   const navigateToLanding = () => {
-//     navigate("/");
-//   };
+  //   const navigateToLanding = () => {
+  //     navigate("/");
+  //   };
 
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg navbar-dark bg-dark"
-        style={{ opacity: "70%" }}
-      >
+      <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div className="container-fluid">
           <a
             className="navbar-brand"
@@ -43,18 +41,20 @@ const NavbarLandingComponent = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul
+              className="navbar-nav me-auto mb-2 mb-lg-0 text-white fw-bold"
+              style={{ cursor: "pointer" }}
+            >
               <li className="nav-item">
-                <a 
-                  // onClick={navigateToLanding} 
-                  className="nav-link">
+                <a
+                  // onClick={navigateToLanding}
+                  className="nav-link"
+                >
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a 
-                // onClick={navigateToGameList} 
-                className="nav-link">
+                <a onClick={navigateToGameList} className="nav-link">
                   Game List
                 </a>
               </li>
