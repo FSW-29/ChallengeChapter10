@@ -23,19 +23,21 @@ export default function GameListByCategoryComponent(props) {
 
   function handleDetail(e) {
     const arrGame = [];
+    if (!localStorage.getItem("token")) {
+      router.push("/login");
+    } else {
+      dataGame.gameListData.forEach((element) => {
+        if (element.id === parseInt(e.target.value)) {
+          arrGame.push(element);
 
-    dataGame.gameListData.forEach((element) => {
-      if (element.id === parseInt(e.target.value)) {
-        arrGame.push(element);
+          localStorage.setItem(element.name, element.name);
+        }
+      });
 
-        localStorage.setItem(element.name, element.name);
-        console.log(localStorage.getItem(element.name), "============> name");
-      }
-    });
+      setChooseGame(arrGame);
 
-    setChooseGame(arrGame);
-
-    router.push("/GameDetail");
+      router.push("/GameDetail");
+    }
   }
 
   useEffect(() => {
@@ -64,7 +66,11 @@ export default function GameListByCategoryComponent(props) {
                   localStorage.getItem(el.name) === el.name ? "40%" : "100%"
                 }`,
               }}
-            />
+            >
+              <h1 className="text-white fw-bold">
+                {localStorage.getItem(el.name) === el.name ? "PLAYED" : ""}
+              </h1>
+            </button>
             <FacebookShareButton
               url={shareUrl}
               quote={el.name}

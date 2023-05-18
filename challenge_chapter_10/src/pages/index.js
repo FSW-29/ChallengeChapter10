@@ -6,6 +6,7 @@ import {
   gamePuzzle,
   gameAction,
   gameNew,
+  gameLeaderboard,
 } from "@/redux/actions/game.action";
 import Head from "next/head";
 //import Link from "next/link";
@@ -24,6 +25,7 @@ export default function Home() {
   const [puzzle, setPuzzle] = useState();
   const [action, setAction] = useState();
   const [gameTypeNew, setGameTypeNew] = useState();
+  const [leaderboard, setLeaderboard] = useState();
 
   async function getData() {
     const data = await fetch("/api/game/game_list");
@@ -56,24 +58,31 @@ export default function Home() {
     setGameTypeNew(typeNew);
   }
 
+  async function getLeaderboard() {
+    const data = await fetch("/api/game/leaderboard");
+    const result = await data.json();
+    setLeaderboard(result.data);
+  }
+
   useEffect(() => {
     getData();
+    getLeaderboard();
   }, []);
 
   useEffect(() => {
-    racing;
-    console.log(racing, "===========> racing");
     let dataGameList = gameList(game);
     let dataGameRacing = gameRacing(racing);
     let dataGamePuzzle = gamePuzzle(puzzle);
     let dataGameAction = gameAction(action);
     let dataGameNew = gameNew(gameTypeNew);
+    let dataLeaderboard = gameLeaderboard(leaderboard);
 
     dispatch(dataGameList);
     dispatch(dataGameRacing);
     dispatch(dataGamePuzzle);
     dispatch(dataGameAction);
     dispatch(dataGameNew);
+    dispatch(dataLeaderboard);
   }, [game]);
 
   return (
@@ -89,10 +98,10 @@ export default function Home() {
         <section className="h-100 bg-dark pt-3">
           <CarouselGameListComponent />
           <LandingDefinitionComponent />
-          <GameListByCategoryComponent
+          {/* <GameListByCategoryComponent
             propsCategory={"Top"}
             propsHandleGame={racing}
-          />
+          /> */}
         </section>
       </main>
     </>

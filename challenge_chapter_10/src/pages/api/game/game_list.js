@@ -7,11 +7,11 @@ export default async function GameListApi(request, response) {
     // => kita ambil database dari setup database
     const database = getDatabase(firebase);
 
-    // > cari table users dari firebase
+    // > cari table game dari firebase
     const gamesRef = ref(database, "game");
     const snapshot = await get(gamesRef);
 
-    // > ambil seluruh data "users" dari db
+    // > ambil seluruh data "game" dari db
     const games = [];
     snapshot.forEach((child) => {
       const childData = child.val();

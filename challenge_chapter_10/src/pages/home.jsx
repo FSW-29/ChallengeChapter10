@@ -25,7 +25,7 @@ const HomePage = (props) => {
     if (!localStorage.getItem("token")) {
       let tokenLocal = localStorage.getItem("token");
       console.log(tokenLocal, "masuk ga ya");
-      router.push('/login');
+      router.push("/login");
       //navigate("/login");
     }
   };
@@ -58,9 +58,11 @@ const HomePage = (props) => {
     <>
       <NavbarHomeComponent propsPutUsername={props.propsSetUsername} />
       {/* <LandingCarouselComponent />*/}
-      <CarouselGameListComponent />
-      <LandingDefinitionComponent />
-      <div className="bg-dark text-white text-center p-3">
+      <section className="h-100 bg-dark pt-3">
+        <CarouselGameListComponent />
+        <LandingDefinitionComponent />
+      </section>
+      {/* <div className="bg-dark text-white text-center p-3">
         <GameListByCategoryComponent
           propsCategory={"Top"}
           propsHandleGame={racing}
@@ -69,11 +71,10 @@ const HomePage = (props) => {
         <button
           type="button"
           class="btn btn-outline-light"
-          //onClick={navigateToGameList}
         >
           VIEW MORE
         </button>
-      </div>
+      </div> */}
     </>
   );
 };
