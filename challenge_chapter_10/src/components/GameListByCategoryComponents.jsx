@@ -5,6 +5,7 @@ import {
   FacebookIcon,
 } from "react-share";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { gameDetail } from "@/redux/actions/game.action";
@@ -12,6 +13,7 @@ import { gameDetail } from "@/redux/actions/game.action";
 export default function GameListByCategoryComponent(props) {
   // > router
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const shareUrl = "http://www.google.com"; // facebook gabisa kalo pake url ini
 
@@ -36,6 +38,8 @@ export default function GameListByCategoryComponent(props) {
 
   useEffect(() => {
     let dataGameDetail = gameDetail(chooseGame);
+
+    dispatch(dataGameDetail);
   }, [chooseGame]);
 
   return (

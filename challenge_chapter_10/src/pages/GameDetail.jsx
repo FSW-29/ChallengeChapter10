@@ -8,7 +8,7 @@ export default function GameDetail() {
   const gameDataDetail = dataGame.gameDetail;
 
   useEffect(() => {
-    console.log(dataGame.gameDetail, "===============>asd");
+    console.log(gameDataDetail, "===============>asd");
   });
 
   return (
