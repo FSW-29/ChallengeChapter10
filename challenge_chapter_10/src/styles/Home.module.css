@@ -1,0 +1,154 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .home{
+    background-image: url(../../public/assets/main-bg.jpg);
+    padding-top: 0;
+    background-size: 100% 100%; 
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+  
+  .landing-main-carousel{
+    /* background-image: url(../public/assets/main-bg.jpg); */
+    background-color: #282c34;
+    padding-top: 0;
+    background-size: 100% 100%; 
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+  
+  .navbar-brand{
+    background-image: url(../../public/assets/Logo-joystick.png); 
+    background-size: 100% 100%; 
+  }
+  
+  .home-title{
+    font-size: 70px;
+  }
+  
+  .home-tagline{
+    margin-top: 40px;
+    margin-bottom: 50px;
+    font-size: 20px;
+  }
+  
+  .home button{
+    font-weight: bold;
+  }
+  
+  .nav-item-create-account{
+    display: flex;
+    background: orangered;
+    opacity: 75%;
+  }
+  
+  .nav-item-sign-in{
+    display: block;
+    background: green;
+    opacity: 75%;
+    margin-left: 10px;
+  }
+  
+  .landingDefiniton{
+    /* background-image: url(../public/assets/features.jpg) ; */
+    background-image: url(../../public/assets/features.jpg) ;
+    background-size: 100% 100%; 
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+  
+  .landing-list-game{
+    background-image: url(../../public/assets/top-score-bg.png) ;
+    background-size: 100% 100%; 
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  } 
+  
+  .btn-suit{
+    background:none;
+    border:none;
+  }
+  
+  .btn-choose-suit{
+    background-color: grey;
+    border-radius: 10%;
+    width: 8em;
+    height: 8em;
+  }
+  
+  .com-choose-suit{
+    background-color: grey;
+    border-radius: 10%;
+    width: 8em;
+    height: 8em;
+  }
+  
+  #result-label{
+    color: red;
+    font-size: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .lbl-hasil-suit{
+    background-color: green;
+    width: 5em;
+    height: 2.5em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 5%;
+    transform: rotate(-0.10turn);
+    font-size: 40px !important;
+    color: white !important; 
+  }
+  
+  .body-container{
+    width: 100%;
+    height: 100%;
+    background-color: moccasin;
+  }
