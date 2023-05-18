@@ -1,6 +1,8 @@
-import React from "react";
+import Image from "next/image";
+import switchLeft from "../../public/switch-left.svg";
+import switchRight from "../../public/switch-right.svg";
 
-function CarouselGameListComponent() {
+export default function CarouselGameListComponent() {
   return (
     <>
       <div id="imageSlider" className="col-12 w-100">
@@ -42,7 +44,18 @@ function CarouselGameListComponent() {
                 style={{ width: "10px", height: "10px", borderRadius: "100%" }}
               ></button>
             </div>
-            <div className="carousel-inner">
+            <div className="carousel-inner  rounded rounded-5">
+              <button
+                className="carousel-control-prev fw-bold text-black"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev"
+              >
+                <span aria-hidden="true">
+                  <Image src={switchLeft} alt="" />
+                </span>
+                <span className="visually-hidden">Previous</span>
+              </button>
               <div className="carousel-item active">
                 <img
                   src="https://images.crazygames.com/smash-karts/20201119155032/smash-karts-cover?auto=format%2Ccompress&q=45&cs=strip&ch=DPR&fit=crop"
@@ -64,37 +77,21 @@ function CarouselGameListComponent() {
                   alt="..."
                 />
               </div>
+              <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next"
+              >
+                <span aria-hidden="true">
+                  <Image src={switchRight} alt="" />
+                </span>
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-
-            <button
-              className="carousel-control-prev bg-dark  bg-opacity-75"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span aria-hidden="true">
-                {" "}
-                <img src="../assets/switch-left.svg" alt="" />
-              </span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-
-            <button
-              className="carousel-control-next bg-dark  bg-opacity-75"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span aria-hidden="true">
-                <img src="../assets/switch-right.svg" alt="" />
-              </span>
-              <span className="visually-hidden">Next</span>
-            </button>
           </div>
         </div>
       </div>
     </>
   );
 }
-
-export default CarouselGameListComponent;

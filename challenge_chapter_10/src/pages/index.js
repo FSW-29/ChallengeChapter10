@@ -1,11 +1,83 @@
+<<<<<<< HEAD
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  gameList,
+  gameRacing,
+  gamePuzzle,
+  gameAction,
+  gameNew,
+} from "@/redux/actions/game.action";
+import Link from "next/link";
+// import 'bootstrap/dist/js/bootstrap';
+=======
 import CarouselGameListComponent from '@/components/CarouselGameListComponent';
 import LandingDefinitionComponent from '@/components/LandingDefinitionComponent';
 import NavbarLanding from '@/components/NavbarLanding';
 import Head from 'next/head';
 
 //import 'bootstrap/dist/js/bootstrap';
+>>>>>>> c1ef3ad1b5849f98a050d04ed809729fb770b24a
 
 export default function Home() {
+  const dispatch = useDispatch();
+
+  const [game, setGame] = useState();
+  const [racing, setRacing] = useState();
+  const [puzzle, setPuzzle] = useState();
+  const [action, setAction] = useState();
+  const [gameTypeNew, setGameTypeNew] = useState();
+
+  async function getData() {
+    const data = await fetch("/api/game/game_list");
+    const result = await data.json();
+    setGame(result.data);
+    manipulationTypeGame(result.data);
+  }
+
+  function manipulationTypeGame(dataGame) {
+    const typeRacing = [];
+    const typePuzzle = [];
+    const typeAction = [];
+    const typeNew = [];
+
+    dataGame.forEach((element) => {
+      if (element.type === "racing") {
+        typeRacing.push(element);
+      } else if (element.type === "puzzle") {
+        typePuzzle.push(element);
+      } else if (element.type === "action") {
+        typeAction.push(element);
+      } else if (element.type === "new") {
+        typeNew.push(element);
+      }
+    });
+
+    setRacing(typeRacing);
+    setPuzzle(typePuzzle);
+    setAction(typeAction);
+    setGameTypeNew(typeNew);
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    let dataGameList = gameList(game);
+    let dataGameRacing = gameRacing(racing);
+    let dataGamePuzzle = gamePuzzle(puzzle);
+    let dataGameAction = gameAction(action);
+    let dataGameNew = gameNew(gameTypeNew);
+
+    dispatch(dataGameList);
+    dispatch(dataGameRacing);
+    dispatch(dataGamePuzzle);
+    dispatch(dataGameAction);
+    dispatch(dataGameNew);
+  }, [game]);
+
   return (
     <>
       <Head>
@@ -15,6 +87,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+<<<<<<< HEAD
+        <div className="container">
+          <h1 className="text-center">Hello Dek</h1>
+          {/* <a href="/game_list">Game List</a> */}
+          <Link href={"/GameList"} className="btn btn-success">
+            Game List
+          </Link>
+        </div>
+=======
         {/* <div className="container">
           <h1 className='text-center'>Hello Dek</h1>
         </div> */}
@@ -32,7 +113,8 @@ export default function Home() {
             VIEW MORE
           </button>
         </div> */}
+>>>>>>> c1ef3ad1b5849f98a050d04ed809729fb770b24a
       </main>
     </>
-  )
+  );
 }
