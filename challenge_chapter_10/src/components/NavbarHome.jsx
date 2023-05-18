@@ -1,33 +1,36 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/router";
 import { getAuth, signOut } from "firebase/auth";
 import firebase from "../services/firebase";
+import styles from "../styles/Home.module.css"
 
 const NavbarHomeComponent = (props) => {
   //const navigate = useNavigate();
+  const router = useRouter();
 
   // const navigateToLanding = () => {
   //     navigate('/')
   // }
 
-//   const navigateToHome = () => {
-//     navigate("/home");
-//   };
-//   const navigateToProfile = () => {
-//     navigate("/profile");
-//   };
+  const navigateToHome = () => {
+    router.push("/home");
+  };
 
-//   const navigateToGameList = () => {
-//     navigate("/game-list");
-//   };
+  const navigateToProfile = () => {
+    router.push("/profile");
+  };
 
-//   const handleLogout = async () => {
-//     const auth = getAuth(firebase);
-//     await signOut(auth);
+  const navigateToGameList = () => {
+    router.push("/GameList");
+  };
 
-//     localStorage.removeItem("token");
-//     navigate("/");
-//   };
+  const handleLogout = async () => {
+    const auth = getAuth(firebase);
+    await signOut(auth);
+
+    localStorage.removeItem("token");
+    router.push("/");
+  };
 
   return (
     <>
@@ -37,7 +40,7 @@ const NavbarHomeComponent = (props) => {
       >
         <div className="container-fluid">
           <a
-            className="navbar-brand"
+            className={styles.navbar_brand}
             style={{ width: "30px", height: "30px" }}
           />
           <button
@@ -55,21 +58,21 @@ const NavbarHomeComponent = (props) => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <a className="nav-link" 
-                // onClick={navigateToHome}
+                onClick={navigateToHome}
                 >
                   Home
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" 
-                // onClick={navigateToProfile}
+                onClick={navigateToProfile}
                 >
                   Profile
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" 
-                // onClick={navigateToGameList}
+                onClick={navigateToGameList}
                 >
                   Game List
                 </a>
@@ -85,9 +88,9 @@ const NavbarHomeComponent = (props) => {
                     Hello, {props.propsPutUsername}
                   </a>
                 </li>
-                <li className="nav-item-create-account">
+                <li className={styles.nav_item_create_account}>
                   <a
-                    // onClick={handleLogout}
+                    onClick={handleLogout}
                     className="nav-link active"
                     aria-current="page"
                   >

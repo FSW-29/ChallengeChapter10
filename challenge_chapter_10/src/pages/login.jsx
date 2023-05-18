@@ -82,7 +82,7 @@ const Register = () => {
     alert('Login Success');
 
     console.log(apiKey, "adrian hehe")
-    router.push('/');
+    router.push('/home');
   };
   
   const loginSSO = async () => {
@@ -98,7 +98,7 @@ const Register = () => {
 
     dispatch(loginWithGoogle(loginResult._tokenResponse));
     alert('Login Success');
-    router.push('/');
+    router.push('/home');
   };
 
   return (
