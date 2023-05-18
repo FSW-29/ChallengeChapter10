@@ -110,19 +110,19 @@
   min-height: 100vh;
 }
 
-.btn-suit {
+.btn_suit {
   background: none;
   border: none;
 }
 
-.btn-choose-suit {
+.btn_choose_suit {
   background-color: grey;
   border-radius: 10%;
   width: 8em;
   height: 8em;
 }
 
-.com-choose-suit {
+.com_choose_suit {
   background-color: grey;
   border-radius: 10%;
   width: 8em;
@@ -136,7 +136,7 @@
   margin-right: auto;
 }
 
-.lbl-hasil-suit {
+.lbl_hasil_suit {
   background-color: green;
   width: 5em;
   height: 2.5em;
@@ -148,7 +148,7 @@
   color: white !important;
 }
 
-.body-container {
+.body_container {
   width: 100%;
   height: 100%;
   background-color: moccasin;

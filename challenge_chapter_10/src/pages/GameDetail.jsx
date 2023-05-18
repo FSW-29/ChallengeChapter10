@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 
 import NavbarHome from "@/components/NavbarHome";
+import GameSuitComponent from "@/components/GameSuitComponent";
 
 export default function GameDetail() {
   let frame;
@@ -34,12 +35,13 @@ export default function GameDetail() {
   });
 
   if (gameDataDetail[0].type === "new") {
-    frame = "tidak ada";
-    // (
-    //   <>
-    //     <GameSuitComponent />
-    //   </>
-    // );
+    frame = (
+      <>
+        <GameSuitComponent />
+      </>
+    );
+    //frame = "tidak ada";
+    
   } else {
     frame = (
       <iframe
