@@ -1,10 +1,12 @@
 import axios from "axios";
 
+
 // > constact vairbale
 // => akan dikirim kedalam reducer dalam case ini 
 // => ./src/redux/reducers/auth/auth.reducer.js
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
+export const LOGIN_WITH_GOOGLE = "LOGIN_WITH_GOOGLE";
 
 export const registerUser = (data) => {
   return async (dispatch) => {
@@ -84,3 +86,44 @@ export const loginUser = (data) => {
   };
 };
 
+export const loginWithGoogle = (data) => {
+  return async (dispatch) => {
+    // > Kondisi loading
+   dispatch({
+    type: LOGIN_WITH_GOOGLE,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false
+    },
+   });
+
+    // > Kondisi fulfilled
+    try {
+      const response = await axios.post('/api/auth/login-google', data, {
+        headers: {
+          'x-api-key': data.localId
+        }
+      });
+      dispatch({
+        type: LOGIN_WITH_GOOGLE,
+        payload: {
+          loading: false,
+          data: response.data,
+          errorMessage: false
+        },
+      });
+    } 
+    // > Kondisi rejected
+    catch (error) {
+      dispatch({
+        type: LOGIN_WITH_GOOGLE,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: error.message
+        },
+      });
+    }
+  };
+};

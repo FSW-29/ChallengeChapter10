@@ -1,6 +1,7 @@
 import { 
   REGISTER_USER,
-  LOGIN_USER
+  LOGIN_USER,
+  LOGIN_WITH_GOOGLE
 } from "@/redux/actions/auth.action";
 
 const initialState = {
@@ -15,6 +16,12 @@ const initialState = {
   loginUserLoading: false,
   loginUserFulfilled: false,
   loginUserRejected: false,
+
+  // > State untuk action loginWithGoogle
+  // => Kondisi awalnya adalah false
+  loginWithGooleLoading: false,
+  loginWithGoogleFulfilled: false,
+  loginWithGoogleRejected: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -32,6 +39,13 @@ const authReducer = (state = initialState, action) => {
         loginUserLoading: action.payload.loading,
         loginUserFulfilled: action.payload.data,
         loginUserRejected: action.payload.errorMessage
+      }
+    case LOGIN_WITH_GOOGLE:
+      return {
+        ...state,
+        loginWithGooleLoading: action.payload.loading,
+        loginWithGoogleFulfilled: action.payload.data,
+        loginWithGoogleRejected: action.payload.errorMessage,
       }
     default:
       return state;
