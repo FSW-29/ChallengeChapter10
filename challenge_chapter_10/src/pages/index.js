@@ -8,9 +8,9 @@ import {
   gameNew,
   gameLeaderboard,
 } from "@/redux/actions/game.action";
+import { useSelector } from "react-redux";
 import Head from "next/head";
-//import Link from "next/link";
-// import 'bootstrap/dist/js/bootstrap';
+import { useRouter } from "next/router";
 
 import CarouselGameListComponent from "@/components/CarouselGameListComponent";
 import GameListByCategoryComponent from "@/components/GameListByCategoryComponents";
@@ -19,6 +19,7 @@ import NavbarLanding from "@/components/NavbarLanding";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const [game, setGame] = useState();
   const [racing, setRacing] = useState();
@@ -70,6 +71,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    racing;
     let dataGameList = gameList(game);
     let dataGameRacing = gameRacing(racing);
     let dataGamePuzzle = gamePuzzle(puzzle);
@@ -85,6 +87,10 @@ export default function Home() {
     dispatch(dataLeaderboard);
   }, [game]);
 
+  const navigateToGameList = () => {
+    router.push("/GameList");
+  };
+
   return (
     <>
       <Head>
@@ -95,13 +101,20 @@ export default function Home() {
       </Head>
       <main>
         <NavbarLanding />
-        <section className="h-100 bg-dark pt-3">
+        <section className="h-100 bg-dark pt-3 text-center">
           <CarouselGameListComponent />
           <LandingDefinitionComponent />
-          {/* <GameListByCategoryComponent
+          <GameListByCategoryComponent
             propsCategory={"Top"}
             propsHandleGame={racing}
-          /> */}
+          />
+          <button
+            type="button"
+            className="btn btn-outline-light mb-5"
+            onClick={navigateToGameList}
+          >
+            VIEW MORE
+          </button>
         </section>
       </main>
     </>

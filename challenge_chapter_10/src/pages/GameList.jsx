@@ -29,7 +29,15 @@ export default function GameList() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {localStorage.getItem("token") ? <NavbarHome /> : <NavbarLanding />}
+      {localStorage.getItem("token") ? (
+        <>
+          <NavbarHome />
+        </>
+      ) : (
+        <>
+          <NavbarLanding />
+        </>
+      )}
       <section className="h-100 bg-dark pt-3">
         <CarouselGameListComponent />
         <div className="container w-100 mt-5">

@@ -40,8 +40,6 @@ export default function GameDetail() {
         <GameSuitComponent />
       </>
     );
-    //frame = "tidak ada";
-    
   } else {
     frame = (
       <iframe
