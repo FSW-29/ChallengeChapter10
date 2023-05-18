@@ -4,7 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import firebase from "../services/firebase";
 
 const NavbarHomeComponent = (props) => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   // const navigateToLanding = () => {
   //     navigate('/')
@@ -54,17 +54,23 @@ const NavbarHomeComponent = (props) => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" onClick={navigateToHome}>
+                <a className="nav-link" 
+                // onClick={navigateToHome}
+                >
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" onClick={navigateToProfile}>
+                <a className="nav-link" 
+                // onClick={navigateToProfile}
+                >
                   Profile
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" onClick={navigateToGameList}>
+                <a className="nav-link" 
+                // onClick={navigateToGameList}
+                >
                   Game List
                 </a>
               </li>
@@ -81,7 +87,7 @@ const NavbarHomeComponent = (props) => {
                 </li>
                 <li className="nav-item-create-account">
                   <a
-                    onClick={handleLogout}
+                    // onClick={handleLogout}
                     className="nav-link active"
                     aria-current="page"
                   >

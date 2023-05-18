@@ -58,7 +58,7 @@
   min-height: 100vh;
 }
 
-.navbar-brand {
+.navbar_brand {
   background-image: url(../../public/assets/Logo-joystick.png);
   background-size: 100% 100%;
 }
@@ -77,21 +77,22 @@
   font-weight: bold;
 }
 
-.nav-item-create-account {
+.nav_item_create_account {
   display: flex;
-  background: orangered;
-  opacity: 75%;
+  background-color: orangered;
+  color: white;
+  font-weight: bold;
 }
 
-.nav-item-sign-in {
+.nav_item_sign_in {
   display: block;
-  background: green;
-  opacity: 75%;
+  background-color: green;
   margin-left: 10px;
+  color: whitesmoke;
+  font-weight: bold;
 }
 
 .landingDefiniton {
-  /* background-image: url(../public/assets/features.jpg) ; */
   background-image: url(../../public/assets/features.jpg);
   background-size: 100% 100%;
   width: 100%;
