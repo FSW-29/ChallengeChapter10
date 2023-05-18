@@ -17,9 +17,9 @@ const NavbarLandingComponent = () => {
     router.push("/GameList");
   };
 
-  //   const navigateToLanding = () => {
-  //     navigate("/");
-  //   };
+  const navigateToLanding = () => {
+    router.push("/");
+  };
 
   return (
     <>
@@ -46,10 +46,7 @@ const NavbarLandingComponent = () => {
               style={{ cursor: "pointer" }}
             >
               <li className="nav-item">
-                <a
-                  // onClick={navigateToLanding}
-                  className="nav-link"
-                >
+                <a onClick={navigateToLanding} className="nav-link">
                   Home
                 </a>
               </li>

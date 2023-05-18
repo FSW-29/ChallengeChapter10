@@ -4,12 +4,33 @@ import { useSelector } from "react-redux";
 import Head from "next/head";
 
 export default function GameDetail() {
+  let frame;
   const dataGame = useSelector((state) => state.gameReducer);
   const gameDataDetail = dataGame.gameDetail;
 
   useEffect(() => {
-    console.log(gameDataDetail, "===============>asd");
+    gameDataDetail;
   });
+
+  if (gameDataDetail[0].type === "new") {
+    frame = "tidak ada";
+    // (
+    //   <>
+    //     <GameSuitComponent />
+    //   </>
+    // );
+  } else {
+    frame = (
+      <iframe
+        className=" rounded-4"
+        title={gameDataDetail[0].name}
+        src={gameDataDetail[0].src}
+        style={{ width: "95%", height: "700px" }}
+        frameBorder="0"
+        allow="gamepad *;"
+      ></iframe>
+    );
+  }
 
   return (
     <>
@@ -19,7 +40,61 @@ export default function GameDetail() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>GAME DETAIL</h1>
+      <section className="h-100 bg-dark pt-3">
+        <div className="text-center">{frame}</div>
+        <div>
+          <div className="row align-items-start pb-3 text-light">
+            <div className="col-6">
+              <div className="pt-3 ps-5 fs-4 ">
+                <h1>{gameDataDetail[0].name}</h1>
+                <table>
+                  <tr>
+                    <td>Developer</td>
+                    <td>:</td>
+                    <td></td>
+                    <td>{gameDataDetail[0].developer}</td>
+                  </tr>
+                  <tr>
+                    <td>Platform</td>
+                    <td>:</td>
+                    <td></td>
+                    <td>{gameDataDetail[0].platform}</td>
+                  </tr>
+                  <tr>
+                    <td>Type</td>
+                    <td>:</td>
+                    <td></td>
+                    <td>{gameDataDetail[0].type}</td>
+                  </tr>
+                </table>
+                <br />
+                <p>{gameDataDetail[0].desc}</p>
+              </div>
+            </div>
+            {/* <div className="col-6 text-center pt-4 pe-5">
+            <h1>LEADERBOARD</h1>
+            <table className="table table-striped table-dark fw-bold fs-5 mt-5 ">
+              <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {arrayLb.sort(compare).map((el, idx) => (
+                  <tr key={el.id}>
+                    <td>{idx + 1}</td>
+                    <td>{el.name}</td>
+                    <td>{el.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div> */}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

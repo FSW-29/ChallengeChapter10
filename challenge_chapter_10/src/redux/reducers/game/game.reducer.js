@@ -1,11 +1,4 @@
-//import { GAME_LIST } from "@/redux/actions/game.action";
-
 const initialState = {
-  // > State untuk action gameList
-  // => Kondisi awalnya adalah false
-  // gameListLoading: false,
-  // gameListFulfilled: false,
-  // gameListRejected: false,
   gameListData: [],
   gameListRacing: [],
   gameListPuzzle: [],

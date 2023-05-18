@@ -5,7 +5,7 @@ import switchRight from "../../public/switch-right.svg";
 export default function CarouselGameListComponent() {
   return (
     <>
-      <div id="imageSlider" className="col-12 w-100">
+      <div id="imageSlider" className="col-12 w-100 pb-3">
         <div className="d-flex flex-row w-100">
           <div
             id="carouselExampleIndicators"
