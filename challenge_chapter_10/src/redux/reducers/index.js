@@ -5,13 +5,7 @@ import gameReducer from "./game/game.reducer";
 
 
 export default combineReducers({
-<<<<<<< HEAD
-    authReducer,
-    usersLogin
-    //masukkan semua reducer ke sini
-})
-=======
   authReducer,
   gameReducer,
+  usersLogin
 });
->>>>>>> abcb1e2ace82df900218c91dcb87ccd7f3615305
