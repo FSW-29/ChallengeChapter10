@@ -1,17 +1,88 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NavbarHomeComponent from "../components/NavbarHome";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import LandingDefinitionComponent from "../components/LandingDefinitionComponent";
 import CarouselGameListComponent from "../components/CarouselGameListComponent";
 import GameListByCategoryComponent from "../components/GameListByCategoryComponents";
-// import { getAuth, signOut } from "firebase/auth";
-// import firebase from "../../services/firebase";
+import {
+  gameList,
+  gameRacing,
+  gamePuzzle,
+  gameAction,
+  gameNew,
+  gameLeaderboard,
+} from "@/redux/actions/game.action";
 
 const HomePage = (props) => {
-  const array = props.propsArray;
-  let racing = [];
+  const dispatch = useDispatch();
   const router = useRouter();
-  //const navigate = useNavigate();
+
+  const [game, setGame] = useState();
+  const [racing, setRacing] = useState();
+  const [puzzle, setPuzzle] = useState();
+  const [action, setAction] = useState();
+  const [gameTypeNew, setGameTypeNew] = useState();
+  const [leaderboard, setLeaderboard] = useState();
+
+  async function getData() {
+    const data = await fetch("/api/game/game_list");
+    const result = await data.json();
+    setGame(result.data);
+    manipulationTypeGame(result.data);
+  }
+
+  function manipulationTypeGame(dataGame) {
+    const typeRacing = [];
+    const typePuzzle = [];
+    const typeAction = [];
+    const typeNew = [];
+
+    dataGame.forEach((element) => {
+      if (element.type === "racing") {
+        typeRacing.push(element);
+      } else if (element.type === "puzzle") {
+        typePuzzle.push(element);
+      } else if (element.type === "action") {
+        typeAction.push(element);
+      } else if (element.type === "new") {
+        typeNew.push(element);
+      }
+    });
+
+    setRacing(typeRacing);
+    setPuzzle(typePuzzle);
+    setAction(typeAction);
+    setGameTypeNew(typeNew);
+  }
+
+  async function getLeaderboard() {
+    const data = await fetch("/api/game/leaderboard");
+    const result = await data.json();
+    setLeaderboard(result.data);
+  }
+
+  useEffect(() => {
+    getData();
+    getLeaderboard();
+  }, []);
+
+  useEffect(() => {
+    racing;
+    let dataGameList = gameList(game);
+    let dataGameRacing = gameRacing(racing);
+    let dataGamePuzzle = gamePuzzle(puzzle);
+    let dataGameAction = gameAction(action);
+    let dataGameNew = gameNew(gameTypeNew);
+    let dataLeaderboard = gameLeaderboard(leaderboard);
+
+    dispatch(dataGameList);
+    dispatch(dataGameRacing);
+    dispatch(dataGamePuzzle);
+    dispatch(dataGameAction);
+    dispatch(dataGameNew);
+    dispatch(dataLeaderboard);
+  }, [game]);
 
   useEffect(() => {
     cekToken();
@@ -30,51 +101,29 @@ const HomePage = (props) => {
     }
   };
 
-  const handleGameRacing = () => {
-    for (let property in array) {
-      if (array[property].type === "racing") {
-        racing.push(array[property]);
-      }
-    }
-  };
-
-  handleGameRacing();
-
-  const handleDetail = (e) => {
-    e.preventDefault();
-
-    //find data berdasarkan select
-    const game = array.find((obj) => obj.id === parseInt(e.target.value));
-    props.propsGame(game);
-
-    //navigate("/game-detail/" + e.target.value);
-  };
-
   const navigateToGameList = () => {
-    //navigate("/game-list");
+    router.push("/GameList");
   };
 
   return (
     <>
       <NavbarHomeComponent propsPutUsername={props.propsSetUsername} />
       {/* <LandingCarouselComponent />*/}
-      <section className="h-100 bg-dark pt-3">
+      <section className="h-100 bg-dark pt-3 text-center">
         <CarouselGameListComponent />
         <LandingDefinitionComponent />
-      </section>
-      {/* <div className="bg-dark text-white text-center p-3">
         <GameListByCategoryComponent
           propsCategory={"Top"}
           propsHandleGame={racing}
-          propsHandleDetail={handleDetail}
         />
         <button
           type="button"
-          class="btn btn-outline-light"
+          className="btn btn-outline-light mb-5"
+          onClick={navigateToGameList}
         >
           VIEW MORE
         </button>
-      </div> */}
+      </section>
     </>
   );
 };
