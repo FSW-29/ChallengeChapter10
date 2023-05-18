@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -9,16 +7,13 @@ import {
   gameAction,
   gameNew,
 } from "@/redux/actions/game.action";
-import Link from "next/link";
+import Head from "next/head";
+//import Link from "next/link";
 // import 'bootstrap/dist/js/bootstrap';
-=======
-import CarouselGameListComponent from '@/components/CarouselGameListComponent';
-import LandingDefinitionComponent from '@/components/LandingDefinitionComponent';
-import NavbarLanding from '@/components/NavbarLanding';
-import Head from 'next/head';
 
-//import 'bootstrap/dist/js/bootstrap';
->>>>>>> c1ef3ad1b5849f98a050d04ed809729fb770b24a
+import CarouselGameListComponent from "@/components/CarouselGameListComponent";
+import LandingDefinitionComponent from "@/components/LandingDefinitionComponent";
+import NavbarLanding from "@/components/NavbarLanding";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -87,33 +82,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-<<<<<<< HEAD
-        <div className="container">
+        <section className="h-100 bg-dark">
+          {/* <div className="container">
           <h1 className="text-center">Hello Dek</h1>
-          {/* <a href="/game_list">Game List</a> */}
           <Link href={"/GameList"} className="btn btn-success">
             Game List
           </Link>
-        </div>
-=======
-        {/* <div className="container">
-          <h1 className='text-center'>Hello Dek</h1>
         </div> */}
-        <NavbarLanding />
-        <CarouselGameListComponent />
-        <LandingDefinitionComponent />
 
-        {/* <div className="bg-dark text-white text-center p-3">
-          <GameListByCategoryComponent
-            propsCategory={"Top"}
-            propsHandleGame={racing}
-            propsHandleDetail={handleDetail}
-          />
-          <button type="button" class="btn btn-outline-light" onClick={navigateToGameList}>
-            VIEW MORE
-          </button>
-        </div> */}
->>>>>>> c1ef3ad1b5849f98a050d04ed809729fb770b24a
+          <NavbarLanding />
+          <CarouselGameListComponent />
+          <LandingDefinitionComponent />
+        </section>
       </main>
     </>
   );
