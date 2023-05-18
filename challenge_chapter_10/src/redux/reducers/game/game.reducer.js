@@ -5,6 +5,7 @@ const initialState = {
   gameListAction: [],
   gameListNew: [],
   gameDetail: [],
+  gameLeaderboard: [],
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -38,6 +39,11 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         gameDetail: action.payload,
+      };
+    case "GAME_LEADERBOARD":
+      return {
+        ...state,
+        gameLeaderboard: action.payload,
       };
     default:
       return state;

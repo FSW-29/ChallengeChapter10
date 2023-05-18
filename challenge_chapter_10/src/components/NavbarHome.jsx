@@ -2,11 +2,14 @@ import React from "react";
 import { useRouter } from "next/router";
 import { getAuth, signOut } from "firebase/auth";
 import firebase from "../services/firebase";
-import styles from "../styles/Home.module.css"
+import styles from "../styles/Home.module.css";
+import { useSelector } from "react-redux";
 
 const NavbarHomeComponent = (props) => {
   //const navigate = useNavigate();
   const router = useRouter();
+
+  const dataGame = useSelector((state) => state.gameReducer);
 
   // const navigateToLanding = () => {
   //     navigate('/')
@@ -29,15 +32,17 @@ const NavbarHomeComponent = (props) => {
     await signOut(auth);
 
     localStorage.removeItem("token");
+
+    dataGame.gameListData.forEach((element) => {
+      localStorage.removeItem(element.name);
+    });
+
     router.push("/");
   };
 
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg navbar-dark bg-dark"
-        style={{ opacity: "70%" }}
-      >
+      <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div className="container-fluid">
           <a
             className={styles.navbar_brand}
@@ -55,25 +60,22 @@ const NavbarHomeComponent = (props) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul
+              className="navbar-nav me-auto mb-2 mb-lg-0 text-white fw-bold"
+              style={{ cursor: "pointer" }}
+            >
               <li className="nav-item">
-                <a className="nav-link" 
-                onClick={navigateToHome}
-                >
+                <a className="nav-link" onClick={navigateToHome}>
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" 
-                onClick={navigateToProfile}
-                >
+                <a className="nav-link" onClick={navigateToProfile}>
                   Profile
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" 
-                onClick={navigateToGameList}
-                >
+                <a className="nav-link" onClick={navigateToGameList}>
                   Game List
                 </a>
               </li>

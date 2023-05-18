@@ -39,3 +39,10 @@ export const gameDetail = (data) => {
     payload: data,
   };
 };
+
+export const gameLeaderboard = (data) => {
+  return {
+    type: "GAME_LEADERBOARD",
+    payload: data,
+  };
+};
