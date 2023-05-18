@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "@/redux/actions/auth.action";
+import { loginUser, loginWithGoogle } from "@/redux/actions/auth.action";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import firebase from "@/services/firebase";
 
 const Register = () => {
   // > state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [apiKey, setApiKey] = useState('');
+  const [apiKeyLoginGoogle, setApiKeyLoginGoogle] = useState('');
 
   const dataUser = {
     email: email,
@@ -32,18 +39,25 @@ const Register = () => {
 
   // > dispatch
   const dispatch = useDispatch();
-  // > selecttor
+  // > selecttor loginUserFulfilled
   const {
     // loginUserLoading,
-    loginUserFulfilled
+    loginUserFulfilled,
+    loginWithGoogleFulfilled
   } = useSelector((state) =>  state.authReducer);
   // console.info(loginUserFulfilled, 'user fulfilled');
   // console.info(loginUserFulfilled.data, 'kondisi fulfilled');
-  
+  console.info(loginWithGoogleFulfilled, '=> data login with google');
+
   // > buat api key
   if (loginUserFulfilled.apiKey != "" && loginUserFulfilled.apiKey != null && typeof loginUserFulfilled.apiKey != 'undefined' && apiKey == ''){
     setApiKey(loginUserFulfilled.apiKey)
     localStorage.setItem("token", loginUserFulfilled.apiKey);
+  }
+  // > buat api key jika login dengan google
+  if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
+    setApiKeyLoginGoogle(loginWithGoogleFulfilled.data.id)
+    localStorage.setItem("token", loginWithGoogleFulfilled.data.id);
   }
   
   // > router
@@ -68,6 +82,22 @@ const Register = () => {
     alert('Login Success');
 
     console.log(apiKey, "adrian hehe")
+    router.push('/');
+  };
+  
+  const loginSSO = async () => {
+    const auth = getAuth(firebase);
+    const provider = new GoogleAuthProvider();
+    const loginResult = await signInWithPopup(auth, provider);
+    // const idUser = loginResult._tokenResponse.localId;
+    // console.info(idUser);
+    // console.info(loginResult._tokenResponse.displayName, 'namaku ini');
+    // console.info(loginResult._tokenResponse.email, 'emailku ini');
+    // console.info(loginResult._tokenResponse, 'dataku ini');
+
+
+    dispatch(loginWithGoogle(loginResult._tokenResponse));
+    alert('Login Success');
     router.push('/');
   };
 
@@ -146,7 +176,7 @@ const Register = () => {
                           <p style={{ fontSize: "14px", fontWeight: "lighter" }}>Or</p>
                         </div>
                         <div className="d-grid gap-2 mt-3">
-                          <p className="btn btn-secondary">
+                          <p className="btn btn-secondary" onClick={ loginSSO }>
                             Login Using Google!
                           </p>
                         </div>
