@@ -62,12 +62,15 @@ export default function GameListByCategoryComponent(props) {
                 backgroundRepeat: "none",
                 width: "100%",
                 height: "200px",
-                opacity: `${
-                  localStorage.getItem(el.name) === el.name ? "40%" : "100%"
-                }`,
+                // opacity: `${
+                //   localStorage.getItem(el.name) === el.name ? "40%" : "100%"
+                // }`,
               }}
             >
-              <h1 className="text-white fw-bold">
+              <h1
+                className="fw-bold"
+                style={{ color: "orange", backgroundColor: "black" }}
+              >
                 {localStorage.getItem(el.name) === el.name ? "PLAYED" : ""}
               </h1>
             </button>
