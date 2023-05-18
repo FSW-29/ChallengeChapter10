@@ -2,16 +2,11 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Head from "next/head";
+import NavbarLanding from "@/components/NavbarLanding";
 import CarouselGameListComponent from "@/components/CarouselGameListComponent";
 import GameListByCategoryComponent from "@/components/GameListByCategoryComponents";
 
 export default function GameList() {
-  // async function getData() {
-  //   const data = await fetch("/api/game/game_list");
-  //   const result = await data.json();
-  //   console.log(result.data);
-  // }
-
   const dataGame = useSelector((state) => state.gameReducer);
   const gameRacing = dataGame.gameListRacing;
   const gamePuzzle = dataGame.gameListPuzzle;
@@ -33,6 +28,7 @@ export default function GameList() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavbarLanding />
       <section className="h-100 bg-dark pt-3">
         <CarouselGameListComponent />
         <div className="container w-100 mt-5">

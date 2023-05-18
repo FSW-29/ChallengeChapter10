@@ -12,6 +12,7 @@ import Head from "next/head";
 // import 'bootstrap/dist/js/bootstrap';
 
 import CarouselGameListComponent from "@/components/CarouselGameListComponent";
+import GameListByCategoryComponent from "@/components/GameListByCategoryComponents";
 import LandingDefinitionComponent from "@/components/LandingDefinitionComponent";
 import NavbarLanding from "@/components/NavbarLanding";
 
@@ -60,6 +61,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    racing;
+    console.log(racing, "===========> racing");
     let dataGameList = gameList(game);
     let dataGameRacing = gameRacing(racing);
     let dataGamePuzzle = gamePuzzle(puzzle);
@@ -82,17 +85,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <section className="h-100 bg-dark">
-          {/* <div className="container">
-          <h1 className="text-center">Hello Dek</h1>
-          <Link href={"/GameList"} className="btn btn-success">
-            Game List
-          </Link>
-        </div> */}
-
-          <NavbarLanding />
+        <NavbarLanding />
+        <section className="h-100 bg-dark pt-3">
           <CarouselGameListComponent />
           <LandingDefinitionComponent />
+          <GameListByCategoryComponent
+            propsCategory={"Top"}
+            propsHandleGame={racing}
+          />
         </section>
       </main>
     </>

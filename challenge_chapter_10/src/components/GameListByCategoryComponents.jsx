@@ -27,13 +27,15 @@ export default function GameListByCategoryComponent(props) {
     dataGame.gameListData.forEach((element) => {
       if (element.id === parseInt(e.target.value)) {
         arrGame.push(element);
+
+        localStorage.setItem(element.name, element.name);
+        console.log(localStorage.getItem(element.name), "============> name");
       }
     });
 
     setChooseGame(arrGame);
 
     router.push("/GameDetail");
-    //console.log(arrGame, "===========> GAME");
   }
 
   useEffect(() => {
@@ -58,6 +60,9 @@ export default function GameListByCategoryComponent(props) {
                 backgroundRepeat: "none",
                 width: "100%",
                 height: "200px",
+                opacity: `${
+                  localStorage.getItem(el.name) === el.name ? "40%" : "100%"
+                }`,
               }}
             />
             <FacebookShareButton
