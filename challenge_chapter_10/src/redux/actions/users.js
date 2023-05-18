@@ -1,6 +1,6 @@
 
 export function userLogin(users){
-
+    console.log(users,'===> ini yang masuk action')
     return{
         type:"LOGIN_AUTHENTICATED",
         payload:users

@@ -10,9 +10,14 @@ export default async function ProfileAPI(req,res){
 
 
     console.log(databaseFirebase, "===> ini result dari api profile")
-    res.json(databaseFirebase)
+
+    console.log(cekData,"ini result setelag masuk object.val" )
+
+    res.json(cekData)
+
     }catch(err){
         console.log(err,"MASUK ERROR")
     }
+
 
 }

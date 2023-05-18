@@ -1,30 +1,42 @@
 const initialState={
-    userUID:null,
-    userName:null,
-    userEmail:null,
-    userPassword:null,
-    userCity:null,
-    userBiodata:null,
-    userSocialMedia:null,
-    userTotalScore:null
+    id:null,
+    username:null,
+    email:null,
+    password:null,
+    city:null,
+    biodata:null,
+    social_media:null,
+    total_score:null
 }
 
 export default function usersLogin(state=initialState, action){
     switch(action.type){
         case 'LOGIN_AUTHENTICATED':
             return{...state, 
-                userUID: action.payload.id,
-                userName: action.payload.username,
-                userEmail: action.payload.email,
-                userPassword: action.payload.password,
-                userCity: action.payload.city,
-                userBiodata: action.payload.biodata,
-                userSocialMedia: action.payload.social_media,
-                userTotalScore: action.payload.total_score
+                id: action.payload.id,
+                username: action.payload.username,
+                email: action.payload.email,
+                password: action.payload.password,
+                city: action.payload.city,
+                biodata: action.payload.biodata,
+                social_media: action.payload.social_media,
+                total_score: action.payload.total_score
             }
 
         case 'LOGOUT':
-            return initialState;
+            return{...state,
+                id: null,
+                username: null,
+                email:null,
+                password:null,
+                city:null,
+                biodata:null,
+                social_media:null,
+                total_score:null
+        }
+                
+                
+            // return initialState;
         
         default:
             return state;

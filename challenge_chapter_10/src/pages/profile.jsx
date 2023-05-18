@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-
+import { userLogin } from "@/redux/actions/users";
 import Link from "next/link";
 import Head from "next/head";
 
 
 export default () => {
 
+    const userProfile=useSelector(state => state.usersLogin)
+    const dispatch=useDispatch();
+    let userNum=null;
     let [dataUsers, setDataUsers]=useState();
 
     useEffect(() =>{
@@ -19,15 +22,35 @@ export default () => {
     const fetchData = async () =>{
         try{
             const data=await fetch('/api/profile/users')
-            let dataGet=await data.json()
+            let cekData=await data.json()
+            console.log(data,"===> data di profile.jsx")
+            console.log(cekData,"===> cekData di profile.jsx")
 
-            setDataUsers(dataGet);
-            console.log(dataGet,"===> data di profile.jsx")
+            // let tokenCurrentUser = localStorage.getItem("token");
+            let tokenCurrentUser = "qZ8C0dmBsbNkfMCNp8POPQDitDg1"
 
+            console.log(tokenCurrentUser, "==> ini token yang sedang login");
+
+            for (let i = 0; i < cekData.length; i++) {
+                if (cekData[i].id === tokenCurrentUser) {
+                  userNum = i;
+                  console.log(userNum, "===> data user berada di array posisi ini");
+                }
+              }
+            if (!userNum) {
+                alert("token invalid, you access our page illegaly");
+                // localStorage.removeItem("token");
+                // navigate("/login");
+              }
+              console.log(cekData[Number(userNum)],"=> data user yang sedang login")
+            
+            let setProfile=userLogin(cekData[Number(userNum)]);
+            dispatch(setProfile);
         }catch(err){
             console.log(err)
         }
     }
+    //lanjutkan edit profile, tampilkan, dsb
 
 
     return(
@@ -38,6 +61,8 @@ export default () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+
         
         </>
     )
