@@ -27,7 +27,7 @@ export default function GameListByCategoryComponent(props) {
       router.push("/login");
     } else {
       dataGame.gameListData.forEach((element) => {
-        if (element.id === parseInt(e.target.value)) {
+        if (element.id === parseInt(e)) {
           arrGame.push(element);
           localStorage.setItem(element.name, element.name);
         }
@@ -43,7 +43,7 @@ export default function GameListByCategoryComponent(props) {
     let dataGameDetail = gameDetail(chooseGame);
 
     dispatch(dataGameDetail);
-  }, [chooseGame]);
+  }, [chooseGame, setChooseGame]);
 
   return (
     <>
@@ -55,7 +55,7 @@ export default function GameListByCategoryComponent(props) {
               <div className="col-3" key={idx}>
                 <button
                   className="rounded-3"
-                  onClick={(e) => handleDetail(e)}
+                  onClick={(e) => handleDetail(el.id)}
                   value={el.id}
                   style={{
                     background: `url(${el.image})`,
