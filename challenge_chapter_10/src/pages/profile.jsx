@@ -66,11 +66,14 @@ export default () => {
 
 
             for (let i = 0; i < cekData.length; i++) {
+
                 if (cekData[i].id === tokenCurrentUser) {
+                    console.log(tokenCurrentUser, "--> tokenCurrentUser Terpanggil");
                   userNum = i;
                 }
               }
-            if (!userNum) {
+              console.log(userNum, "===> Ini userNum");
+            if (userNum == null) {
                 alert("token invalid, you access our page illegaly");
                 localStorage.removeItem("token");
                 router.push("/login");
