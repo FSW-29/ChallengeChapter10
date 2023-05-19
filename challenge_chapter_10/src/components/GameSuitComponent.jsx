@@ -13,6 +13,7 @@ function GameSuitComponent() {
   const [user, setUser] = useState({});
   const [playerScore, setPlayerScore] = useState(0);
   const [compScore, setCompScore] = useState(0);
+  const [round,setRound]=useState(1);
 
   let refRockPlayer = useRef("");
   let refRockCom = useRef("");
@@ -172,6 +173,7 @@ function GameSuitComponent() {
           // > Update state score user
           setPlayerScore(playerScore + 0);
           setCompScore(compScore + 0);
+          
 
           // draw
           hasil_suit = "Draw";
@@ -185,6 +187,7 @@ function GameSuitComponent() {
         } else {
           // > Update state score computer
           setCompScore(compScore + 1);
+          
 
           // return com win
           hasil_suit = "Com Win";
@@ -261,6 +264,7 @@ function GameSuitComponent() {
     // > Reset Score Player dan Computer
     setPlayerScore(0);
     setCompScore(0);
+    setRound(1)
 
     enableButton();
   };
@@ -290,7 +294,7 @@ function GameSuitComponent() {
     resultLabel_final.innerText = "VS";
 
     resultLabel_final.classList.remove(styles.lbl_hasil_suit);
-
+    setRound(round+1)
     enableButton();
   };
 
@@ -411,7 +415,19 @@ function GameSuitComponent() {
                 PLAYER 1 (Score: {playerScore})
               </h4>
             </div>
-            <div className="col-2"></div>
+            
+            <div className="col-2">
+              <h4
+                style={{
+                  fontSize: "25px",
+                  textAlign: "center",
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                ROUND {round}
+              </h4>
+            </div>
             <div className="col-5">
               <h4
                 style={{
