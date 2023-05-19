@@ -89,7 +89,14 @@ const NavbarMainComponent = () => {
                     aria-labelledby="navbarDropdown"
                   >
                     <li>
-                      <a className="dropdown-item text-black">Profile</a>
+                      <a className="dropdown-item text-black">
+                        <Link className="nav-link" 
+                          href={"/profile"}
+                          style={{ fontSize: "18px" }}>
+                          Profile
+                        </Link>
+                          
+                          </a>
                     </li>
                     <li>
                       <hr className="dropdown-divider" />
