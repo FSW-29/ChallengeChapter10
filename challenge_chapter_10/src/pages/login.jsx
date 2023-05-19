@@ -66,7 +66,7 @@ const Login = () => {
   ) {
     setApiKey(loginUserFulfilled.apiKey);
     localStorage.setItem("token", loginUserFulfilled.apiKey);
-    router.push('/');
+    router.push('/home');
   }
   // > buat api key jika login dengan google
   if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
@@ -96,8 +96,8 @@ const Login = () => {
     // router.push('/');
 
     console.log(loginUserRejected)
-    if ( loginUserRejected === false) {
-      alert('Check again your email and password');
+    if (loginUserRejected === true || apiKey !== "") {
+      // alert('Check again your email and password');
       setApiKey("");
       localStorage.setItem("token", ""); 
       // router.replace('/login');
@@ -111,16 +111,11 @@ const Login = () => {
       // Login berhasil, melakukan pengalihan halaman
       alert('Login Berhasil');
       console.log(apiKey, "adrian hehe");
-      router.replace('/');
+      router.replace('/home');
     }
 
     setEmail('');
     setPassword('');
-
-    alert('Login Success');
-
-    console.log(apiKey, "adrian hehe")
-    router.push('/home');
   };
 
   const loginSSO = async () => {
