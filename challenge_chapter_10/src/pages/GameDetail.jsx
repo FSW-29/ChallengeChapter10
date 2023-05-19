@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -7,13 +7,17 @@ import Head from "next/head";
 import NavbarHome from "@/components/NavbarHome";
 import GameSuitComponent from "@/components/GameSuitComponent";
 
+// import { useDispatch } from "react-redux";
+// import { gameDetail } from "@/redux/actions/game.action";
+
 export default function GameDetail() {
   let frame;
   const dataGame = useSelector((state) => state.gameReducer);
   const gameDataDetail = dataGame.gameDetail;
   const gameLeaderboard = dataGame.gameLeaderboard;
 
-  const router = useRouter();
+  // const router = useRouter();
+  // const dispatch = useDispatch();
 
   function compare(a, b) {
     if (a.score < b.score) {
@@ -29,29 +33,31 @@ export default function GameDetail() {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  // function frameGame() {
+  //   if (gameDataDetail[0].type === "new") {
+  //     setFrame(
+  //       <>
+  //         <GameSuitComponent />
+  //       </>
+  //     );
+  //   } else {
+  //     setFrame(
+  //       <iframe
+  //         className=" rounded-4"
+  //         title={gameDataDetail[0].name}
+  //         src={gameDataDetail[0].src}
+  //         style={{ width: "95%", height: "700px" }}
+  //         frameBorder="0"
+  //         allow="gamepad *;"
+  //       ></iframe>
+  //     );
+  //   }
+  // }
+
   useEffect(() => {
     gameDataDetail;
     gameLeaderboard;
-  });
-
-  if (gameDataDetail[0].type === "new") {
-    frame = (
-      <>
-        <GameSuitComponent />
-      </>
-    );
-  } else {
-    frame = (
-      <iframe
-        className=" rounded-4"
-        title={gameDataDetail[0].name}
-        src={gameDataDetail[0].src}
-        style={{ width: "95%", height: "700px" }}
-        frameBorder="0"
-        allow="gamepad *;"
-      ></iframe>
-    );
-  }
+  }, []);
 
   return (
     <>
@@ -63,7 +69,22 @@ export default function GameDetail() {
       </Head>
       <NavbarHome />
       <section className="h-100 bg-dark pt-3">
-        <div className="text-center">{frame}</div>
+        <div className="text-center">
+          {gameDataDetail[0].type === "new" ? (
+            <>
+              <GameSuitComponent />
+            </>
+          ) : (
+            <iframe
+              className=" rounded-4"
+              title={gameDataDetail[0].name}
+              src={gameDataDetail[0].src}
+              style={{ width: "95%", height: "700px" }}
+              frameBorder="0"
+              allow="gamepad *;"
+            ></iframe>
+          )}
+        </div>
         <div>
           <div className="row align-items-start pb-3 text-light">
             <div className="col-6">
