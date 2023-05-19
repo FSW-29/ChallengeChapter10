@@ -1,32 +1,33 @@
 import React from "react";
 import { useRouter } from "next/router";
+import styles from "../styles/Home.module.css";
 
 const NavbarLandingComponent = () => {
   const router = useRouter();
   //   const navigate = useNavigate();
 
-  //   const navigateToRegister = () => {
-  //     navigate("/register");
-  //   };
+  const navigateToRegister = () => {
+    router.push("/register");
+  };
 
-  //   const navigateToLogin = () => {
-  //     navigate("/login");
-  //   };
+  const navigateToLogin = () => {
+    router.push("/login");
+  };
 
   const navigateToGameList = () => {
     router.push("/GameList");
   };
 
-  //   const navigateToLanding = () => {
-  //     navigate("/");
-  //   };
+  const navigateToLanding = () => {
+    router.push("/");
+  };
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div className="container-fluid">
           <a
-            className="navbar-brand"
+            className={styles.navbar_brand}
             style={{ width: "30px", height: "30px" }}
           />
           <button
@@ -46,10 +47,7 @@ const NavbarLandingComponent = () => {
               style={{ cursor: "pointer" }}
             >
               <li className="nav-item">
-                <a
-                  // onClick={navigateToLanding}
-                  className="nav-link"
-                >
+                <a onClick={navigateToLanding} className="nav-link">
                   Home
                 </a>
               </li>
@@ -61,21 +59,13 @@ const NavbarLandingComponent = () => {
             </ul>
             <form className="d-flex">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item-create-account">
-                  <a
-                    // onClick={navigateToRegister}
-                    className="nav-link active"
-                    aria-current="page"
-                  >
+                <li className={styles.nav_item_create_account}>
+                  <a onClick={navigateToRegister} className="nav-link">
                     Create An Account
                   </a>
                 </li>
-                <li className="nav-item-sign-in">
-                  <a
-                    // onClick={navigateToLogin}
-                    className="nav-link active"
-                    aria-current="page"
-                  >
+                <li className={styles.nav_item_sign_in}>
+                  <a onClick={navigateToLogin} className="nav-link">
                     Sign In
                   </a>
                 </li>

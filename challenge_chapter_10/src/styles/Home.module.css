@@ -58,7 +58,7 @@
   min-height: 100vh;
 }
 
-.navbar-brand {
+.navbar_brand {
   background-image: url(../../public/assets/Logo-joystick.png);
   background-size: 100% 100%;
 }
@@ -77,21 +77,22 @@
   font-weight: bold;
 }
 
-.nav-item-create-account {
+.nav_item_create_account {
   display: flex;
-  background: orangered;
-  opacity: 75%;
+  background-color: orangered;
+  color: white;
+  font-weight: bold;
 }
 
-.nav-item-sign-in {
+.nav_item_sign_in {
   display: block;
-  background: green;
-  opacity: 75%;
+  background-color: green;
   margin-left: 10px;
+  color: whitesmoke;
+  font-weight: bold;
 }
 
 .landingDefiniton {
-  /* background-image: url(../public/assets/features.jpg) ; */
   background-image: url(../../public/assets/features.jpg);
   background-size: 100% 100%;
   width: 100%;
@@ -109,19 +110,19 @@
   min-height: 100vh;
 }
 
-.btn-suit {
+.btn_suit {
   background: none;
   border: none;
 }
 
-.btn-choose-suit {
+.btn_choose_suit {
   background-color: grey;
   border-radius: 10%;
   width: 8em;
   height: 8em;
 }
 
-.com-choose-suit {
+.com_choose_suit {
   background-color: grey;
   border-radius: 10%;
   width: 8em;
@@ -135,7 +136,7 @@
   margin-right: auto;
 }
 
-.lbl-hasil-suit {
+.lbl_hasil_suit {
   background-color: green;
   width: 5em;
   height: 2.5em;
@@ -147,7 +148,7 @@
   color: white !important;
 }
 
-.body-container {
+.body_container {
   width: 100%;
   height: 100%;
   background-color: moccasin;

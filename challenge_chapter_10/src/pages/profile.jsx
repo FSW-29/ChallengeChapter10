@@ -62,6 +62,16 @@ export default () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
+            {
+                userProfile ? (
+                    <>
+                        {userProfile.id}
+                    </>
+                ) : (
+                    <h1>Loading....</h1>
+                )
+            }
+
 
         
         </>

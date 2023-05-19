@@ -34,9 +34,15 @@ export const gameNew = (data) => {
 };
 
 export const gameDetail = (data) => {
-  console.log(data, "==============> game detail");
   return {
     type: "GAME_DETAIL",
+    payload: data,
+  };
+};
+
+export const gameLeaderboard = (data) => {
+  return {
+    type: "GAME_LEADERBOARD",
     payload: data,
   };
 };
