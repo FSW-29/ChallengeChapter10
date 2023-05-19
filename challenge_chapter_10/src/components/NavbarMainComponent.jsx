@@ -18,7 +18,7 @@ const NavbarMainComponent = () => {
     setLoginGoogle(JSON.parse(localStorage.getItem("dataUserGoogle")));
   }, []);
 
-  console.info(login, '=> username');
+  // console.info(login, '=> username');
 
 
   // console.log(loginGoogle,"<<<")
@@ -43,7 +43,7 @@ const NavbarMainComponent = () => {
             </ul>
             <ul className="navbar-nav navbar-auth">
               {
-                loginUserFulfilled || loginWithGoogleFulfilled || login !== "" ? (
+                login || loginGoogle ? (
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ fontSize: '18px' }}>
                       { login ? login.username : loginGoogle.username } - { login ? login.total_score : loginGoogle.total_score }
