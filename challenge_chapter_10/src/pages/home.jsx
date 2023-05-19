@@ -13,6 +13,7 @@ import {
   gameNew,
   gameLeaderboard,
 } from "@/redux/actions/game.action";
+import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 const HomePage = (props) => {
   const dispatch = useDispatch();
@@ -107,7 +108,8 @@ const HomePage = (props) => {
 
   return (
     <>
-      <NavbarHomeComponent propsPutUsername={props.propsSetUsername} />
+      {/* <NavbarHomeComponent propsPutUsername={props.propsSetUsername} /> */}
+      <NavbarMainComponent />
       {/* <LandingCarouselComponent />*/}
       <section className="h-100 bg-dark pt-3 text-center">
         <CarouselGameListComponent />

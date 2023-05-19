@@ -1,22 +1,27 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const NavbarMainComponent = () => {
-  const [username, setUsername] = useState('');
-  const [totalPoint, setTotalPoint] = useState('');
+  const [login, setLogin] = useState('');
+  const [loginGoogle, setLoginGoogle] = useState('');
+  const router = useRouter();
 
-  const { loginUserFulfilled, loginWithGoogleFulfilled } = useSelector((state) => state.authReducer);
+  const {
+    loginUserFulfilled,
+    loginWithGoogleFulfilled
+  } = useSelector((state) =>  state.authReducer);
 
-  if (loginUserFulfilled.profile != "" && loginUserFulfilled.profile != null && typeof loginUserFulfilled.profile != 'undefined' && username == ''){
-    setUsername(loginUserFulfilled.profile.username);
-    setTotalPoint(loginUserFulfilled.profile.total_score);
-  }
-  if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && username == ''){
-    setUsername(loginWithGoogleFulfilled.data.username);
-    setTotalPoint(loginWithGoogleFulfilled.data.total_score);
-  }
+  useEffect(() => {
+    setLogin(JSON.parse(localStorage.getItem("dataUser")));
+    setLoginGoogle(JSON.parse(localStorage.getItem("dataUserGoogle")));
+  }, []);
 
+  console.info(login, '=> username');
+
+
+  // console.log(loginGoogle,"<<<")
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -38,15 +43,23 @@ const NavbarMainComponent = () => {
             </ul>
             <ul className="navbar-nav navbar-auth">
               {
-                loginUserFulfilled || loginWithGoogleFulfilled ? (
+                loginUserFulfilled || loginWithGoogleFulfilled || login !== "" ? (
                   <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ fontSize: '18px' }}>
-                      {username} - {totalPoint}
+                      { login ? login.username : loginGoogle.username } - { login ? login.total_score : loginGoogle.total_score }
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a className="dropdown-item text-black">Profile</a></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><a className="dropdown-item text-black">Logout</a></li>
+                      {/* Minta tolong rapikan logout nya */}
+                      {/* hapus 3 localstorage ini */}
+                      <li><a className="dropdown-item text-black" onClick={() => {
+                        console.info('panggilah')
+                        localStorage.removeItem("token")
+                        localStorage.removeItem("dataUser")
+                        localStorage.removeItem("dataUserGoogle")
+                        router.push('/login');
+                      }}>Logout</a></li>
                     </ul>
                   </li>
                 ) : (
