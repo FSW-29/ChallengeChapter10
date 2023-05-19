@@ -3,12 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "@/redux/actions/users";
 import { useRouter } from "next/router";
 import Head from "next/head";
-<<<<<<< HEAD
 import firebase from "@/services/firebase";
 import { ref, get, child, getDatabase, update } from "firebase/database";
 import {getStorage, ref as refStorage, uploadBytesResumable} from "firebase/storage";
-=======
->>>>>>> 8daa4bc63071f4de1e0c1dd8b2eeea87acc585c4
 import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 
@@ -205,13 +202,8 @@ export default () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-<<<<<<< HEAD
 
             <NavbarMainComponent />
-
-=======
-            <NavbarMainComponent />
->>>>>>> 8daa4bc63071f4de1e0c1dd8b2eeea87acc585c4
             {
                 userProfile ? (
                     <>
