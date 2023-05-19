@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "@/redux/actions/auth.action";
 import { useRouter } from "next/router";
+import NavbarAuthComponent from "@/components/NavbarAuthComponent";
 
 const ResetPasswordForm = () => {
   const [password, setPassword] = useState('');
@@ -43,6 +44,7 @@ const ResetPasswordForm = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavbarAuthComponent />
       <section className="h-100 bg-dark">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

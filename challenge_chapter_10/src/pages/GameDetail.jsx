@@ -6,6 +6,7 @@ import Head from "next/head";
 
 import NavbarHome from "@/components/NavbarHome";
 import GameSuitComponent from "@/components/GameSuitComponent";
+import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 export default function GameDetail() {
   let frame;
@@ -61,7 +62,7 @@ export default function GameDetail() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NavbarHome />
+      <NavbarMainComponent />
       <section className="h-100 bg-dark pt-3">
         <div className="text-center">{frame}</div>
         <div>
