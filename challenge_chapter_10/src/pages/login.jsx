@@ -66,14 +66,18 @@ const Login = () => {
   ) {
     setApiKey(loginUserFulfilled.apiKey);
     localStorage.setItem("token", loginUserFulfilled.apiKey);
-    localStorage.setItem("dataUser", JSON.stringify(loginUserFulfilled.profile));
+    const { username, total_score } = loginUserFulfilled.profile;
+    const dataUser = { username, total_score }
+    localStorage.setItem("dataUser", JSON.stringify(dataUser));
     router.push('/home');
   }
   // > buat api key jika login dengan google
   if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
     setApiKeyLoginGoogle(loginWithGoogleFulfilled.data.id)
     localStorage.setItem("token", loginWithGoogleFulfilled.data.id);
-    localStorage.setItem("dataUserGoogle", JSON.stringify(loginWithGoogleFulfilled.data));
+    const { username, total_score } = loginWithGoogleFulfilled.data;
+    const dataUserGoogle = { username, total_score };
+    localStorage.setItem("dataUserGoogle", JSON.stringify(dataUserGoogle));
   }
 
   const handleLogin = async (event) => {
