@@ -10,58 +10,69 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import firebase from "@/services/firebase";
+import NavbarAuthComponent from "@/components/NavbarAuthComponent";
 
-const Register = () => {
+const Login = () => {
   // > state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [apiKeyLoginGoogle, setApiKeyLoginGoogle] = useState('');
 
+  // > data yang akan dikirim saat login
   const dataUser = {
     email: email,
     password: password
   };
 
+  // > router
+  const router = useRouter();
+
   // > hooks untuk cek user sudah login atau belum
-  let i = 0;
   useEffect(() => {
-    if (i === 0) {
-      const checkAccessToken = () => {
-        if (localStorage.getItem('token')) {
-          router.push('/');
-        }
-      };
-      checkAccessToken();
-      i++;
-    }
-  }, [i]);
+    const checkAccessToken = () => {
+      if (localStorage.getItem('token')) {
+        router.push('/');
+      }
+    };
+    checkAccessToken();
+  }, [router]);
 
   // > dispatch
   const dispatch = useDispatch();
   // > selecttor loginUserFulfilled
   const {
-    // loginUserLoading,
+    loginUserLoading,
     loginUserFulfilled,
+    loginUserRejected,
+    loginWithGooleLoading,
     loginWithGoogleFulfilled
   } = useSelector((state) =>  state.authReducer);
-  // console.info(loginUserFulfilled, 'user fulfilled');
+  // console.info(loginUserFulfilled, 'login berhasil');
   // console.info(loginUserFulfilled.data, 'kondisi fulfilled');
-  console.info(loginWithGoogleFulfilled, '=> data login with google');
+  // console.info(loginWithGoogleFulfilled, '=> data login with google');
+  // console.info(loginUserRejected, '=> login gagal');
 
   // > buat api key
-  if (loginUserFulfilled.apiKey != "" && loginUserFulfilled.apiKey != null && typeof loginUserFulfilled.apiKey != 'undefined' && apiKey == ''){
-    setApiKey(loginUserFulfilled.apiKey)
+  // if (loginUserFulfilled.apiKey != "" && loginUserFulfilled.apiKey != null && typeof loginUserFulfilled.apiKey != 'undefined' && apiKey == ''){
+  //   setApiKey(loginUserFulfilled.apiKey)
+  //   localStorage.setItem("token", loginUserFulfilled.apiKey);
+  // }
+  if (
+    loginUserFulfilled.apiKey != "" &&
+    loginUserFulfilled.apiKey != null &&
+    typeof loginUserFulfilled.apiKey != 'undefined' &&
+    apiKey == ''
+  ) {
+    setApiKey(loginUserFulfilled.apiKey);
     localStorage.setItem("token", loginUserFulfilled.apiKey);
+    router.push('/home');
   }
   // > buat api key jika login dengan google
   if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
     setApiKeyLoginGoogle(loginWithGoogleFulfilled.data.id)
     localStorage.setItem("token", loginWithGoogleFulfilled.data.id);
   }
-  
-  // > router
-  const router = useRouter();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -69,22 +80,44 @@ const Register = () => {
     // > cek inputan user
     // > Cek inputan user
     if (!email || !password) {
-      alert("Check Again Your Register Form!");
+      return alert("Email and password cannot be empty!");
     }
 
     // console.info(email, password, '=> data login');
     
-    dispatch(loginUser(dataUser));
+    await dispatch(loginUser(dataUser));
+
+    // setEmail('');
+    // setPassword('');
+
+    // alert('Login Success');
+
+    // console.log(apiKey, "adrian hehe")
+    // router.push('/');
+
+    console.log(loginUserRejected)
+    if (loginUserRejected === true || apiKey !== "") {
+      // alert('Check again your email and password');
+      setApiKey("");
+      localStorage.setItem("token", ""); 
+      // router.replace('/login');
+    } else if (
+      loginUserFulfilled &&
+      !loginUserLoading &&
+      loginUserFulfilled !== false &&
+      !loginUserRejected &&
+      loginUserRejected !== true
+    ) {
+      // Login berhasil, melakukan pengalihan halaman
+      alert('Login Berhasil');
+      console.log(apiKey, "adrian hehe");
+      router.replace('/home');
+    }
 
     setEmail('');
     setPassword('');
-
-    alert('Login Success');
-
-    console.log(apiKey, "adrian hehe")
-    router.push('/home');
   };
-  
+
   const loginSSO = async () => {
     const auth = getAuth(firebase);
     const provider = new GoogleAuthProvider();
@@ -96,7 +129,7 @@ const Register = () => {
     // console.info(loginResult._tokenResponse, 'dataku ini');
 
 
-    dispatch(loginWithGoogle(loginResult._tokenResponse));
+    await dispatch(loginWithGoogle(loginResult._tokenResponse));
     alert('Login Success');
     router.push('/home');
   };
@@ -131,6 +164,13 @@ const Register = () => {
                       <h3 className="mb-5 text-uppercase text-center">
                         Login
                       </h3>
+                      {
+                        loginUserRejected  ? (
+                          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>Check Again Email or Password</p>
+                          </div>
+                        ) : ""
+                      }
                       <form onSubmit={handleLogin}>
                         <div className="mb-3">
                           <label htmlFor="email" className="form-label">
@@ -161,7 +201,7 @@ const Register = () => {
                         <div className="d-grid gap-2 mt-2">
                           <button type="submit" className="btn btn-primary">
                             {
-                              loginUserFulfilled ? 'Loading....' : 'Login'
+                              loginUserLoading ? 'Login on Process....' : 'Login'
                             }
                           </button>
                           <Link
@@ -177,7 +217,9 @@ const Register = () => {
                         </div>
                         <div className="d-grid gap-2 mt-3">
                           <p className="btn btn-secondary" onClick={ loginSSO }>
-                            Login Using Google!
+                            {
+                              loginWithGooleLoading ? 'Login on Process' : 'Login Using Google!'
+                            }
                           </p>
                         </div>
                         <div className="d-grid gap-2 my-3">
@@ -202,4 +244,4 @@ const Register = () => {
   );
 }
 
-export default Register;
+export default Login;

@@ -1,32 +1,39 @@
 import Head from "next/head";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import firebase from "@/services/firebase";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPassword } from "@/redux/actions/auth.action";
+import { useRouter } from "next/router";
 
-const ResetPasswordPage = () => {
-  const [email, setEmail] = useState('');
+const ResetPasswordForm = () => {
+  const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+  const {
+    // loginUserLoading,
+    resetPasswordFulfilled,
+    resetPasswordLoading
+  } = useSelector((state) =>  state.authReducer);
+  // console.info(resetPasswordFulfilled, '=> reset password fulfilled');
 
   const router = useRouter();
 
-  const auth = getAuth(firebase);
+  const handleUpdatePassword = (event) => {
+    event.preventDefault();
 
-  const handleResetPassword = async (event) => {
-    try {
-      event.preventDefault();
+    const code = new URLSearchParams(window.location.search).get("oobCode");
+    const newPassword = password;
+    // console.info(code, newPassword, '=> data code');
 
-      const resetPassword = await sendPasswordResetEmail(auth, email, {
-        url: "http://localhost:3000/reset-password-form", // URL halaman reset password buatanmu
-        handleCodeInApp: true,
-      });
-      // console.info(resetPassword, '=> hasil reset password page');
+    const dataBody = {
+      code, newPassword
+    };
 
-      alert('Reset Password Email has been Send to Your Email!');
-      router.push('/login');
-    } catch (error) {
-      alert(`${error.message}`);
-    }
-  };
+    dispatch(resetPassword(dataBody));
+
+    alert('Your password has been successfully updated!');
+    router.push('/login')
+  }
 
   return (
     <>
@@ -56,15 +63,19 @@ const ResetPasswordPage = () => {
                   <div className="col-xl-6 justify-content-center align-items-center">
                     <div className="card-body p-md-5 text-black">
                       <h3 className="mb-5 text-uppercase text-center">
-                        Reset Password
+                        Update Password
                       </h3>
-                      <form onSubmit={ handleResetPassword }>
+                      <form onSubmit={ handleUpdatePassword }>
                         <div className="mb-3">
-                          <label htmlFor="email" className="form-label">Email Address</label>
-                          <input name="email" type="email" className="form-control" id="email" placeholder="Your Email Address" onChange={ (e) => setEmail(e.target.value) }  />
+                          <label htmlFor="password" className="form-label">New Password</label>
+                          <input name="password" type="password" className="form-control" id="password" placeholder="New Password Address" onChange={ (e) => setPassword(e.target.value) } />
                         </div>
                         <div className="d-grid gap-2 mt-2">
-                          <button type="submit" className="btn btn-primary">Send Email Reset Password</button>
+                          <button type="submit" className="btn btn-primary">
+                            {
+                              resetPasswordLoading ? 'Process Update Password...' : 'Update Password'
+                            }
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -79,4 +90,4 @@ const ResetPasswordPage = () => {
   );
 }
 
-export default ResetPasswordPage;
+export default ResetPasswordForm;
