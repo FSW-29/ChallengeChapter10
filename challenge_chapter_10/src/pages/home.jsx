@@ -87,11 +87,13 @@ const HomePage = (props) => {
 
   useEffect(() => {
     cekToken();
-    // fetchData();
+    
     // console.log(database,'===> isi get database')
     // console.log(authFirebase, '===> isi getAuth')
     // console.log(userId,'===> isi auth current user uid')
   }, []);
+
+    let userNum=null;
 
   const cekToken = () => {
     if (!localStorage.getItem("token")) {
