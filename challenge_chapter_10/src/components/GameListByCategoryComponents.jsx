@@ -29,7 +29,6 @@ export default function GameListByCategoryComponent(props) {
       dataGame.gameListData.forEach((element) => {
         if (element.id === parseInt(e.target.value)) {
           arrGame.push(element);
-
           localStorage.setItem(element.name, element.name);
         }
       });
