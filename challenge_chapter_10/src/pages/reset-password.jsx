@@ -3,6 +3,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import firebase from "@/services/firebase";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import NavbarAuthComponent from "@/components/NavbarAuthComponent";
 
 const ResetPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -36,6 +37,7 @@ const ResetPasswordPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <NavbarAuthComponent />
       <section className="h-100 bg-dark">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

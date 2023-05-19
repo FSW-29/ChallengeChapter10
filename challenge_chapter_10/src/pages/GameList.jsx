@@ -6,6 +6,7 @@ import NavbarLanding from "@/components/NavbarLanding";
 import NavbarHome from "@/components/NavbarHome";
 import CarouselGameListComponent from "@/components/CarouselGameListComponent";
 import GameListByCategoryComponent from "@/components/GameListByCategoryComponents";
+import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 export default function GameList() {
   const dataGame = useSelector((state) => state.gameReducer);
@@ -31,11 +32,11 @@ export default function GameList() {
       </Head>
       {localStorage.getItem("token") ? (
         <>
-          <NavbarHome />
+          <NavbarMainComponent />
         </>
       ) : (
         <>
-          <NavbarLanding />
+          <NavbarMainComponent />
         </>
       )}
       <section className="h-100 bg-dark pt-3">
