@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import firebase from "@/services/firebase";
 import { ref, get, child, getDatabase, update } from "firebase/database";
-import {getStorage, ref as refStorage, uploadBytesResumable} from "firebase/storage";
+import {getStorage, ref as refStorage, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 
 import NavbarMainComponent from "@/components/NavbarMainComponent";
 
@@ -23,7 +23,7 @@ export default () => {
     let [userCity, setUserCity] = useState();
     let [userBiodata, setUserBiodata] = useState();
     let [userSocialMedia, setUserSocialMedia] = useState();
-
+    let [userProfilePicture, setUserProfilePicture]=useState();
 
     let [fileUser, setFileUser]=useState();
     let [imageUser, setImageUser]=useState();
@@ -32,6 +32,7 @@ export default () => {
     useEffect(() =>{
         cekToken();
         fetchData();
+        fetchProfPic();
     },[])
 
     const cekToken = () =>{
@@ -39,23 +40,35 @@ export default () => {
             router.push("/login");
           }
     }
+
+    const fetchProfPic = async () =>{
+        try{
+            let tokenCurrentUser = localStorage.getItem("token");
+            const storage=getStorage(firebase);
+            const downloadURL=await getDownloadURL(refStorage(storage, `profile/${tokenCurrentUser}`))
+            // const pathReference = refStorage(storage, `profile/${tokenCurrentUser}`);
+            setUserProfilePicture(downloadURL);
+            console.log(downloadURL, '==> ini preferences download')
+
+
+        }catch(err){
+            console.log(err)
+        }
+    }
     
     let userNum=null;
     const fetchData = async () =>{
         try{
             const data=await fetch('/api/profile/users')
             let cekData=await data.json()
-            console.log(data,"===> data di profile.jsx")
-            console.log(cekData,"===> cekData di profile.jsx")
+
 
             let tokenCurrentUser = localStorage.getItem("token");
 
-            console.log(tokenCurrentUser, "==> ini token yang sedang login");
 
             for (let i = 0; i < cekData.length; i++) {
                 if (cekData[i].id === tokenCurrentUser) {
                   userNum = i;
-                  console.log(userNum, "===> data user berada di array posisi ini");
                 }
               }
             if (!userNum) {
@@ -63,7 +76,6 @@ export default () => {
                 localStorage.removeItem("token");
                 router.push("/login");
               }
-              console.log(cekData[Number(userNum)],"=> data user yang sedang login")
             
             let setProfile=userLogin(cekData[Number(userNum)]);
             dispatch(setProfile);
@@ -79,20 +91,16 @@ export default () => {
         try{
             const data=await fetch('/api/profile/users')
                 let cekData=await data.json()
-                console.log(data,"===> data di profile.jsx")
-                console.log(cekData,"===> cekData di profile.jsx")
 
                 let tokenCurrentUser = localStorage.getItem("token");
 
 
-                console.log(tokenCurrentUser, "==> ini token yang sedang login");
 
                 //looping untuk pencarian data user yang sesuai dengan uid
                 for (let i = 0; i < cekData.length; i++) {
                 //kondisinal untuk mengambil index array yang sesuai dengan uid
                     if (cekData[i].id === tokenCurrentUser) {
                         userNum = i;
-                        console.log(userNum, "===> data user berada di array posisi ini");
                     }
                 }
                 //ambil data /users menjadi kumpulan object of object
@@ -103,18 +111,14 @@ export default () => {
                 //penampung index /users/tempProperty dari firebase
                 let tempProperty;
 
-                console.log(userNum, "=>");
                 //looping obbject in object
                 for (let property in collectionObject) {
                     //kondisional buat pengecek apakah looping sudah sesuai dengan index array
                     if (temp === userNum) {
-                    // console.log(`${property}: ${collectionObject[property]}`)
-                        console.log("kena if");
                         tempProperty = property;
                     }
                     temp++;
                 }
-                console.log(tempProperty, "==> INI ISI TEMP PROPERTY dari tombol edit");
                 //ambil data dari input user
                 let tempCity, tempBiodata, tempSocialMedia, tempUsername;
                 if (!userUsername) {
@@ -148,7 +152,6 @@ export default () => {
                     social_media: tempSocialMedia,
                 };
 
-                console.log(inputUser, "===> ini isi input user");
                 const updates = {};
                 updates["/users/" + tempProperty] = inputUser;
                 update(ref(database), updates);
@@ -171,8 +174,6 @@ export default () => {
         const storageRef=refStorage(storage, `profile/${tokenCurrentUser}`)
 
         const uploadImage = uploadBytesResumable(storageRef, fileUser)
-        console.log(storageRef, "==> this is final storageref")
-        console.log(uploadImage, "===> ini yg diupload")
         router.push('/home')
     }
 
@@ -183,12 +184,10 @@ export default () => {
         let fileReader=new FileReader();
 
         fileReader.addEventListener('load', () =>{
-            console.log(fileReader.result, "===> this is image")
             setImageUser(fileReader.result)
         })
 
         if (fileInputUser.type.includes("image/")){
-            console.log("===> ini lulus include");
             fileReader.readAsDataURL(fileInputUser)
         }
     }
@@ -211,6 +210,14 @@ export default () => {
                     <>
                         <div className="container border rounded border-info mt-3">
                         <h1>Profile Page</h1>
+                            {
+                                userProfilePicture && (
+                                    <>
+                                        <p>user Profile Picture</p>
+                                        <img src={userProfilePicture} alt='img-user' height='150' width='150'/>
+                                    </>
+                                )
+                            }
                             <form onSubmit={handleUpdatePicture}>
                                 <div className="mb-3">
                                     <label className='form-label'>Change Profile Picture</label>
