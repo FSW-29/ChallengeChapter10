@@ -16,6 +16,7 @@ import CarouselGameListComponent from "@/components/CarouselGameListComponent";
 import GameListByCategoryComponent from "@/components/GameListByCategoryComponents";
 import LandingDefinitionComponent from "@/components/LandingDefinitionComponent";
 import NavbarLanding from "@/components/NavbarLanding";
+import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -100,7 +101,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <NavbarLanding />
+        {/* <NavbarLanding /> */}
+        <NavbarMainComponent />
         <section className="h-100 bg-dark pt-3 text-center">
           <CarouselGameListComponent />
           <LandingDefinitionComponent />
