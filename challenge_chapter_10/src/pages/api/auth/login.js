@@ -50,6 +50,7 @@ export default async function LoginAPI(request, response)  {
         statusCode: 200,
         message: "Login Success!",
         data: user,
+        profile: isEmailExists,
         apiKey: token
       });
     } else {

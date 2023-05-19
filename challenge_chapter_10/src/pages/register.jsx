@@ -4,6 +4,7 @@ import { registerUser } from "@/redux/actions/auth.action";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
+import NavbarAuthComponent from "@/components/NavbarAuthComponent";
 
 const Register = () => {
   // > state
@@ -54,10 +55,10 @@ const Register = () => {
     // > cek inputan user
     // > Cek inputan user
     if (!email || !username || !password || !biodata || !city || !socialMedia) {
-      alert("Check Again Your Register Form!");
+      return alert("Check Again Your Register Form!");
     }
     
-    dispatch(registerUser(dataUser));
+    await dispatch(registerUser(dataUser));
 
     setEmail('');
     setUsername('');
@@ -79,7 +80,8 @@ const Register = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="h-100 bg-dark">
+      <NavbarAuthComponent />
+      <section className="h-100 bg-dark mt-3">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col">

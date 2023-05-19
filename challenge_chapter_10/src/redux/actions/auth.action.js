@@ -7,6 +7,7 @@ import axios from "axios";
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_WITH_GOOGLE = "LOGIN_WITH_GOOGLE";
+export const RESET_PASSWORD = "RESET_PASSWORD";
 
 export const registerUser = (data) => {
   return async (dispatch) => {
@@ -122,6 +123,44 @@ export const loginWithGoogle = (data) => {
           loading: false,
           data: false,
           errorMessage: error.message
+        },
+      });
+    }
+  };
+};
+
+export const resetPassword = (data) => {
+  return async (dispatch) => {
+    // > kondisi pending
+    dispatch({
+      type: RESET_PASSWORD,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false
+      },
+    });
+
+    // > kondisi fulfilled
+    try { 
+      const response = await axios.put('/api/auth/reset-password', data);
+      dispatch({
+        type: RESET_PASSWORD,
+        payload: {
+          loading: false,
+          data: response.data,
+          errorMessage: false,
+        },
+      });
+    } 
+    // > kondisi rejected
+    catch (error) {
+      dispatch({
+        type: RESET_PASSWORD,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: error.message,
         },
       });
     }
