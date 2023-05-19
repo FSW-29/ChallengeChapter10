@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as ReactDOM from "react-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase from "../services/firebase";
-import { get, getDatabase, ref, update } from "firebase/database";
+import {  ref, get, child, getDatabase, update } from "firebase/database";
 import styles from "../styles/Home.module.css";
 
 
 function GameSuitComponent() {
+  const userProfile=useSelector(state => state.usersLogin)
   const [user, setUser] = useState({});
   const [playerScore, setPlayerScore] = useState(0);
   const [compScore, setCompScore] = useState(0);
@@ -25,6 +27,7 @@ function GameSuitComponent() {
   let refReset = useRef("");
 
   let hasil_suit;
+  let userNum;
 
   const auth = getAuth(firebase);
   const database = getDatabase(firebase);
@@ -96,29 +99,61 @@ function GameSuitComponent() {
 
           // > Update total_score in db
           const updateScore = async () => {
-            const usersRef = ref(database, "users");
-            const snapshot = await get(usersRef);
 
-            const users = [];
-            snapshot.forEach((childSnapshot) => {
-              const childData = childSnapshot.val();
-              users.push({
-                ids: childSnapshot.key,
-                ...childData,
-              });
-            });
+                          const data=await fetch('/api/profile/users')
+                          let cekData=await data.json()
+                          console.log(data,"===> data di profile.jsx")
+                          console.log(cekData,"===> cekData di profile.jsx")
 
-            // > Cek apakah username dan email sudah digunakan
-            const checkData = users.find((data) => data.id === user.uid);
-            console.info(checkData);
+                          let tokenCurrentUser = localStorage.getItem("token");
 
-            if (checkData) {
-              const userRef = ref(database, `users/${checkData.ids}`);
-              await update(userRef, {
-                total_score: checkData.total_score + 10,
-              });
-              console.info("Score updated successfully");
-            }
+
+                          console.log(tokenCurrentUser, "==> ini token yang sedang login");
+
+                          //looping untuk pencarian data user yang sesuai dengan uid
+                          for (let i = 0; i < cekData.length; i++) {
+                          //kondisinal untuk mengambil index array yang sesuai dengan uid
+                              if (cekData[i].id === tokenCurrentUser) {
+                                  userNum = i;
+                                  console.log(userNum, "===> data user berada di array posisi ini");
+                              }
+                          }
+                          //ambil data /users menjadi kumpulan object of object
+                          const databaseFirebase = await get(child(ref(database), "users"));
+                          let collectionObject = databaseFirebase.val();
+                          //penampung untuk mengecek looping ke berapa
+                          let temp = 0;
+                          //penampung index /users/tempProperty dari firebase
+                          let tempProperty;
+
+                          console.log(userNum, "=>");
+                          //looping obbject in object
+                          for (let property in collectionObject) {
+                              //kondisional buat pengecek apakah looping sudah sesuai dengan index array
+                              if (temp === userNum) {
+                              // console.log(`${property}: ${collectionObject[property]}`)
+                                  console.log("kena if");
+                                  tempProperty = property;
+                              }
+                              temp++;
+                          }
+                          let userCurrentScore=cekData[Number(userNum)].total_score
+                          let tempScore=Number(userCurrentScore)+10
+                          console.log(tempProperty, "==> INI ISI TEMP PROPERTY dari tombol edit");
+                          const inputUser = {
+                            email: cekData[Number(userNum)].email,
+                            username: cekData[Number(userNum)].username,
+                            id: cekData[Number(userNum)].id,
+                            password: cekData[Number(userNum)].password,
+                            total_score: tempScore,
+                            city: cekData[Number(userNum)].city,
+                            biodata: cekData[Number(userNum)].biodata,
+                            social_media: cekData[Number(userNum)].social_media,
+                        }
+                        const updates = {};
+                        updates["/users/" + tempProperty] = inputUser;
+                        update(ref(database), updates);
+                        console.log("Score Updated Succesfully")
           };
 
           // => Jalankan method update point di db
@@ -155,6 +190,7 @@ function GameSuitComponent() {
           hasil_suit = "Com Win";
         }
       }
+      
 
       console.log(hasil_suit);
 

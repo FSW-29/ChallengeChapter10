@@ -49,7 +49,7 @@ const NavbarMainComponent = () => {
                       { login ? login.username : loginGoogle.username } - { login ? login.total_score : loginGoogle.total_score }
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a className="dropdown-item text-black">Profile</a></li>
+                      <li><Link className="nav-link" href={'/profile'} style={{fontSize: '18px'}}>Profile</Link></li>
                       <li><hr className="dropdown-divider" /></li>
                       {/* Minta tolong rapikan logout nya */}
                       {/* hapus 3 localstorage ini */}
