@@ -6,7 +6,6 @@ import Head from "next/head";
 import firebase from "@/services/firebase";
 import { ref, get, child, getDatabase, update } from "firebase/database";
 import {getStorage, ref as refStorage, uploadBytesResumable, getDownloadURL} from "firebase/storage";
-
 import NavbarMainComponent from "@/components/NavbarMainComponent";
 
 
@@ -203,8 +202,6 @@ export default () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <NavbarMainComponent />
-
-
             {
                 userProfile ? (
                     <>
