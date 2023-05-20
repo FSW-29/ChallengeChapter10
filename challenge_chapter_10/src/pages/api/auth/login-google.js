@@ -10,14 +10,15 @@ export default async function LoginGoogle(request, response) {
   try {
     const loginResult = request.headers;
     const dataBody = request.body;
+
+    const {
+      idUserGoogle,
+      emailUserGoogle,
+      fullNameUserGoogle
+    } = request.body
+
     // console.info(loginResult['x-api-key'], 'header ku');
     // console.info(dataBody, '=> dari body');
-
-    // > proses auth
-    // const auth = getAuth(firebase);
-    // const provider = new GoogleAuthProvider();
-    // const loginResult = await signInWithPopup(auth, provider);
-    // console.info(loginResult, '=> hasil di api login-google');
 
     // > instancae variable database
     // => kita ambil database dari setup database
@@ -37,14 +38,14 @@ export default async function LoginGoogle(request, response) {
       });
     });
 
-    const isEmailExists = users.find((user) => user.email === dataBody.email);
+    const isEmailExists = users.find((user) => user.email === emailUserGoogle);
     console.info(isEmailExists, '=> email ditemukan');
 
     if (!isEmailExists) {
       // > get user id, username, and email
-      const idUser = loginResult['x-api-key'];
-      const emailUser = dataBody.email;
-      const name = dataBody.fullName;
+      const idUser = idUserGoogle;
+      const emailUser = emailUserGoogle;
+      const name = fullNameUserGoogle;
 
       // > split name dan buat username
       const splitName = name.split(" ");

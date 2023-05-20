@@ -1,27 +1,25 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { isLoading } from "@/redux/actions/auth.action";
 
 const NavbarMainComponent = () => {
-  const [login, setLogin] = useState("");
-  const [loginGoogle, setLoginGoogle] = useState("");
-  const router = useRouter();
+  const [login, setLogin] = useState('');
 
-  const dataGame = useSelector((state) => state.gameReducer);
-
-  const { loginUserFulfilled, loginWithGoogleFulfilled } = useSelector(
-    (state) => state.authReducer
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLogin(JSON.parse(localStorage.getItem("dataUser")));
-    setLoginGoogle(JSON.parse(localStorage.getItem("dataUserGoogle")));
   }, []);
 
-  // console.info(login, '=> username');
+  const handleLogout = () => {
+    console.info("panggilah");
+    localStorage.removeItem("token");
+    localStorage.removeItem("dataUser");
+    dispatch(isLoading(false));
+  }
 
-  // console.log(loginGoogle,"<<<")
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -70,66 +68,35 @@ const NavbarMainComponent = () => {
               </li>
             </ul>
             <ul className="navbar-nav navbar-auth">
-              {login || loginGoogle ? (
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ fontSize: "18px" }}
-                  >
-                    {login ? login.username : loginGoogle.username} -{" "}
-                    {login ? login.total_score : loginGoogle.total_score}
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <li>
-                      <a className="dropdown-item text-black">
-                        <Link className="nav-link" 
-                          href={"/profile"}
-                          style={{ fontSize: "18px" }}>
-                          Profile
-                        </Link>
-                          
-                          </a>
+              {
+                login ? (
+                  <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ fontSize: '18px' }}>
+                      { login.usernameLogin } - { login.userTotalScoreLogin }
+                    </a>
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><Link className="nav-link" href={'/profile'} style={{fontSize: '18px'}}>Profile</Link></li>
+                      <li><hr className="dropdown-divider" /></li>
+                      {/* Minta tolong rapikan logout nya */}
+                      {/* hapus 3 localstorage ini */}
+                      <li>
+                        <a 
+                          className="dropdown-item text-black"
+                          onClick={handleLogout}
+                        ><Link href={"/login"}>
+                            Logout
+                          </Link>
+                        </a>
+
                     </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    {/* Minta tolong rapikan logout nya */}
-                    {/* hapus 3 localstorage ini */}
-                    <li>
-                      <a
-                        className="dropdown-item text-black"
-                        onClick={() => {
-                          console.info("panggilah");
-                          localStorage.removeItem("token");
-                          localStorage.removeItem("dataUser");
-                          localStorage.removeItem("dataUserGoogle");
-                          dataGame.gameListData.forEach((element) => {
-                            localStorage.removeItem(element.name);
-                          });
-                          router.push("/login");
-                        }}
-                      >
-                        Logout
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              ) : (
-                <Link
-                  href={"/register"}
-                  className="btn btn-md mx-2 my-3 btn-outline-primary"
-                >
-                  <b className="px-2 py-4">Register Account</b>
-                </Link>
-              )}
+                    </ul>
+                  </li>
+                ) : (
+                  <Link href={"/register"} className="btn btn-md mx-2 my-3 btn-outline-primary">
+                    <b className="px-2 py-4">Register Account</b>
+                  </Link>
+                )
+              }
               {/* <Link href={"/register"} className="btn btn-md mx-2 my-3 btn-outline-primary">
                 <b className="px-2 py-4">Register Account</b>
               </Link> */}
