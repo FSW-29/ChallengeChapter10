@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, loginWithGoogle } from "@/redux/actions/auth.action";
+import { failedLogin, isLoading, loginUser, loginWithGoogle, newLoginGoogle, newLoginUser } from "@/redux/actions/auth.action";
 import { useRouter } from "next/router";
+import axios from "axios";
 import Link from "next/link";
 import Head from "next/head";
 import {
@@ -16,8 +17,17 @@ const Login = () => {
   // > state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [apiKey, setApiKey] = useState('');
   const [apiKeyLoginGoogle, setApiKeyLoginGoogle] = useState('');
+
+  // > dispatch
+  const dispatch = useDispatch();
+
+  const {
+    loginUserLoading,
+    loginUserRejected,
+    loginWithGooleLoading,
+    loginWithGoogleFulfilled
+  } = useSelector((state) =>  state.authReducer);
 
   // > data yang akan dikirim saat login
   const dataUser = {
@@ -38,106 +48,124 @@ const Login = () => {
     checkAccessToken();
   }, [router]);
 
-  // > dispatch
-  const dispatch = useDispatch();
-  // > selecttor loginUserFulfilled
-  const {
-    loginUserLoading,
-    loginUserFulfilled,
-    loginUserRejected,
-    loginWithGooleLoading,
-    loginWithGoogleFulfilled
-  } = useSelector((state) =>  state.authReducer);
-  // console.info(loginUserFulfilled, 'login berhasil');
-  // console.info(loginUserFulfilled.data, 'kondisi fulfilled');
-  // console.info(loginWithGoogleFulfilled, '=> data login with google');
-  // console.info(loginUserRejected, '=> login gagal');
-
-  // > buat api key
-  // if (loginUserFulfilled.apiKey != "" && loginUserFulfilled.apiKey != null && typeof loginUserFulfilled.apiKey != 'undefined' && apiKey == ''){
-  //   setApiKey(loginUserFulfilled.apiKey)
-  //   localStorage.setItem("token", loginUserFulfilled.apiKey);
-  // }
-  if (
-    loginUserFulfilled.apiKey != "" &&
-    loginUserFulfilled.apiKey != null &&
-    typeof loginUserFulfilled.apiKey != 'undefined' &&
-    apiKey == ''
-  ) {
-    setApiKey(loginUserFulfilled.apiKey);
-    localStorage.setItem("token", loginUserFulfilled.apiKey);
-    const { username, total_score } = loginUserFulfilled.profile;
-    const dataUser = { username, total_score }
-    localStorage.setItem("dataUser", JSON.stringify(dataUser));
-    router.push('/home');
-  }
-  // > buat api key jika login dengan google
-  if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
-    setApiKeyLoginGoogle(loginWithGoogleFulfilled.data.id)
-    localStorage.setItem("token", loginWithGoogleFulfilled.data.id);
-    const { username, total_score } = loginWithGoogleFulfilled.data;
-    const dataUserGoogle = { username, total_score };
-    localStorage.setItem("dataUserGoogle", JSON.stringify(dataUserGoogle));
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    // > cek inputan user
-    // > Cek inputan user
-    if (!email || !password) {
-      return alert("Email and password cannot be empty!");
+    console.log("wawan ganteng")
+
+    try {
+      // > Cek inputan user
+      if (!email || !password) {
+        return alert("Email and password cannot be empty!");
+      }
+
+      let response = await axios.post('/api/auth/login', dataUser);
+      let dataUserLogin = response.data;
+
+      let tokenUser = dataUserLogin.profile.id;
+      let usernameLogin = dataUserLogin.profile.username;
+      let userTotalScoreLogin = dataUserLogin.profile.total_score;
+
+      // console.info(tokenUser, usernameLogin, userTotalScoreLogin, '=> data user login');
+      // console.info(profile, '=> hasil login guys');
+
+      const jsonUserData = {
+        usernameLogin,
+        userTotalScoreLogin
+      }
+      localStorage.setItem("token", tokenUser);
+      localStorage.setItem("dataUser", JSON.stringify(jsonUserData));
+      
+      dispatch(newLoginUser(dataUser));
+      dispatch(failedLogin(false));
+      dispatch(isLoading(false));
+
+      setEmail('');
+      setPassword('');
+
+      // alert('Login Success');
+      router.push('/home');
+    } catch (error) {
+      dispatch(failedLogin(error));
+      dispatch(isLoading(false));
+      // console.log(error);
+    } finally {
+      dispatch(isLoading(true));
     }
-
-    // console.info(email, password, '=> data login');
-    
-    await dispatch(loginUser(dataUser));
-
-    // setEmail('');
-    // setPassword('');
-
-    // alert('Login Success');
-
-    // console.log(apiKey, "adrian hehe")
-    // router.push('/');
-
-    console.log(loginUserRejected)
-    if (loginUserRejected === true || apiKey !== "") {
-      // alert('Check again your email and password');
-      setApiKey("");
-      localStorage.setItem("token", ""); 
-      // router.replace('/login');
-    } else if (
-      loginUserFulfilled &&
-      !loginUserLoading &&
-      loginUserFulfilled !== false &&
-      !loginUserRejected &&
-      loginUserRejected !== true
-    ) {
-      // Login berhasil, melakukan pengalihan halaman
-      alert('Login Berhasil');
-      console.log(apiKey, "adrian hehe");
-      router.replace('/home');
-    }
-
-    setEmail('');
-    setPassword('');
   };
 
+  // > buat api key jika login dengan google
+  // if (loginWithGoogleFulfilled.data != "" && loginWithGoogleFulfilled.data != null && typeof loginWithGoogleFulfilled.data != 'undefined' && apiKeyLoginGoogle == ''){
+  //   setApiKeyLoginGoogle(loginWithGoogleFulfilled.data.id)
+  //   localStorage.setItem("token", loginWithGoogleFulfilled.data.id);
+  //   const { username, total_score } = loginWithGoogleFulfilled.data;
+  //   const dataUserGoogle = { username, total_score };
+  //   localStorage.setItem("dataUserGoogle", JSON.stringify(dataUserGoogle));
+  // }
+
+  // const loginSSO = async () => {
+  //   const auth = getAuth(firebase);
+  //   const provider = new GoogleAuthProvider();
+  //   const loginResult = await signInWithPopup(auth, provider);
+  //   // const idUser = loginResult._tokenResponse.localId;
+  //   // console.info(idUser);
+  //   // console.info(loginResult._tokenResponse.displayName, 'namaku ini');
+  //   // console.info(loginResult._tokenResponse.email, 'emailku ini');
+  //   // console.info(loginResult._tokenResponse, 'dataku ini');
+
+
+  //   await dispatch(loginWithGoogle(loginResult._tokenResponse));
+  //   // alert('Login Success');
+  //   router.push('/home');
+  // };
+
   const loginSSO = async () => {
-    const auth = getAuth(firebase);
-    const provider = new GoogleAuthProvider();
-    const loginResult = await signInWithPopup(auth, provider);
-    // const idUser = loginResult._tokenResponse.localId;
-    // console.info(idUser);
-    // console.info(loginResult._tokenResponse.displayName, 'namaku ini');
-    // console.info(loginResult._tokenResponse.email, 'emailku ini');
-    // console.info(loginResult._tokenResponse, 'dataku ini');
+    console.log("wawan biasa aja")
 
+    try {
+      const auth = getAuth(firebase);
+      const provider = new GoogleAuthProvider();
+      const loginResult = await signInWithPopup(auth, provider);
 
-    await dispatch(loginWithGoogle(loginResult._tokenResponse));
-    alert('Login Success');
-    router.push('/home');
+      // console.info(loginResult, 'hasil login dengan google');
+      const idUserGoogle = loginResult._tokenResponse.localId;
+      const emailUserGoogle = loginResult._tokenResponse.email;
+      const fullNameUserGoogle = loginResult._tokenResponse.fullName;
+      
+      // > dapatin data user login google
+      // console.info(loginResult, '-> hasil login result');
+      // console.info(idUserGoogle, emailUserGoogle, fullNameUserGoogle, '=> dapat ni');
+
+      const dataGoogle = {
+        idUserGoogle,
+        emailUserGoogle,
+        fullNameUserGoogle
+      }
+
+      let response = await axios.post('/api/auth/login-google', dataGoogle);
+      let dataUserLoginGoogle = response.data;
+
+      dispatch(newLoginGoogle(dataUserLoginGoogle));
+
+      let tokenUser = dataUserLoginGoogle.data.id;
+      let usernameLogin = dataUserLoginGoogle.data.username;
+      let userTotalScoreLogin = dataUserLoginGoogle.data.total_score;
+
+      const jsonUserData = {
+        usernameLogin,
+        userTotalScoreLogin
+      }
+      localStorage.setItem("token", tokenUser);
+      localStorage.setItem("dataUser", JSON.stringify(jsonUserData));
+
+      router.push('/home');
+    } catch (error) {
+      dispatch(failedLogin(error));
+      dispatch(isLoading(false));
+      // console.log(error);
+    } finally {
+      dispatch(isLoading(true));
+    }
   };
 
   return (
@@ -173,12 +201,12 @@ const Login = () => {
                       </h3>
                       {
                         loginUserRejected  ? (
-                          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                          <div className="alert alert-danger" role="alert">
                             <p>Check Again Email or Password</p>
                           </div>
                         ) : ""
                       }
-                      <form onSubmit={handleLogin}>
+                      <form onSubmit={(e) => handleLogin(e)}> 
                         <div className="mb-3">
                           <label htmlFor="email" className="form-label">
                             Email Address
