@@ -10,6 +10,12 @@ const NavbarHomeComponent = (props) => {
   const router = useRouter();
 
   const dataGame = useSelector((state) => state.gameReducer);
+  const dataUser = useSelector((state) => state.usersLogin_reducers);
+  //const dataUserLogin = dataUser.username;
+
+
+  // const dataUser = useSelector((state) => state.gameReducer);
+  // const gameDataDetail = dataGame.gameDetail;
 
   // const navigateToLanding = () => {
   //     navigate('/')
@@ -87,7 +93,8 @@ const NavbarHomeComponent = (props) => {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page">
-                    Hello, {props.propsPutUsername}
+                    Hello, 
+                    {/* {dataUser.username} */}
                   </a>
                 </li>
                 <li className={styles.nav_item_create_account}>

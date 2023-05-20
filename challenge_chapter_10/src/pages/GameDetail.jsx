@@ -31,7 +31,7 @@ export default function GameDetail() {
   }
 
   const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str?.charAt(0)?.toUpperCase() + str?.slice(1);
   };
 
   // function frameGame() {
@@ -71,15 +71,15 @@ export default function GameDetail() {
       <NavbarMainComponent />
       <section className="h-100 bg-dark pt-3">
         <div className="text-center">
-          {gameDataDetail[0].type === "new" ? (
+          {gameDataDetail[0]?.type === "new" ? (
             <>
               <GameSuitComponent />
             </>
           ) : (
             <iframe
               className=" rounded-4"
-              title={gameDataDetail[0].name}
-              src={gameDataDetail[0].src}
+              title={gameDataDetail[0]?.name}
+              src={gameDataDetail[0]?.src}
               style={{ width: "95%", height: "700px" }}
               frameBorder="0"
               allow="gamepad *;"
@@ -90,29 +90,30 @@ export default function GameDetail() {
           <div className="row align-items-start pb-3 text-light">
             <div className="col-6">
               <div className="pt-3 ps-5 fs-4 ">
-                <h1>{gameDataDetail[0].name}</h1>
+                <h1>{gameDataDetail[0]?.name}</h1>
                 <table>
                   <tr>
                     <td>Developer</td>
                     <td>:</td>
                     <td></td>
-                    <td>{gameDataDetail[0].developer}</td>
+                    <td>{gameDataDetail[0]?.developer}</td>
                   </tr>
                   <tr>
                     <td>Platform</td>
                     <td>:</td>
                     <td></td>
-                    <td>{gameDataDetail[0].platform}</td>
+                    <td>{gameDataDetail[0]?.platform}</td>
                   </tr>
                   <tr>
                     <td>Type</td>
                     <td>:</td>
                     <td></td>
-                    <td>{capitalize(gameDataDetail[0].type)}</td>
+                    {console.log(gameDataDetail[0]?.type)}
+                    <td>{capitalize(gameDataDetail[0]?.type)}</td>
                   </tr>
                 </table>
                 <br />
-                <p>{gameDataDetail[0].desc}</p>
+                <p>{gameDataDetail[0]?.desc}</p>
               </div>
             </div>
             <div className="col-6 text-center pt-4 pe-5">
@@ -126,7 +127,7 @@ export default function GameDetail() {
                   </tr>
                 </thead>
                 <tbody>
-                  {gameLeaderboard.sort(compare).map((el, idx) => (
+                  {gameLeaderboard?.sort(compare).map((el, idx) => (
                     <tr key={el.id}>
                       <td>{idx + 1}</td>
                       <td>{el.name}</td>
