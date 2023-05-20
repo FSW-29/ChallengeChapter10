@@ -1,6 +1,7 @@
 import { 
   REGISTER_USER,
   LOGIN_USER,
+  LOGIN_SUCCESS_2,
   LOGIN_WITH_GOOGLE,
   RESET_PASSWORD
 } from "@/redux/actions/auth.action";
@@ -40,13 +41,37 @@ const authReducer = (state = initialState, action) => {
         registerUserFulfilled: action.payload.data,
         registerUserRejected: action.payload.errorMessage
       }
-    case LOGIN_USER:
+    // case LOGIN_USER:
+    //   return {
+    //     ...state, 
+    //     loginUserLoading: action.payload.loading,
+    //     loginUserFulfilled: action.payload.data,
+    //     loginUserRejected: action.payload.errorMessage,
+    //   }
+    case LOGIN_SUCCESS_2: 
+      console.info(action.payload, '=> dari case LOGIN_SUCCESS_2');
       return {
-        ...state, 
-        loginUserLoading: action.payload.loading,
-        loginUserFulfilled: action.payload.data,
-        loginUserRejected: action.payload.errorMessage,
+        ...state,
+        loginUserFulfilled: action.payload
       }
+    case "LOGIN_FAILED": 
+      console.info(action.payload, '=> dari case LOGIN_FAILED');
+      return {
+        ...state,
+        loginUserRejected: action.payload
+      }
+    case "IS_LOADING":
+      console.info(action.payload, '=> dari case IS_LOADING');
+      return {
+        ...state,
+        loginUserLoading: action.payload
+      }
+    case "LOGIN_SUCCESS_3": 
+      console.info(action.payload, '=> dari case LOGIN_SUCCESS_2');
+      return {
+        ...state,
+        loginWithGoogleFulfilled: action.payload
+    }
     case LOGIN_WITH_GOOGLE:
       return {
         ...state,
